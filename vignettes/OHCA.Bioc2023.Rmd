@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 ### Description
 
 This is a package demonstration for the `OHCA` ecosystem, including the 
-following pacakges : 
+following packages : 
 
 - `HiCool`
 - `HiCExperiment`
