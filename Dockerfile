@@ -1,4 +1,4 @@
-FROM bioconductor/bioconductor_docker:devel
+FROM ghcr.io/js2264/ohca:latest
 
 WORKDIR /home/rstudio
 

@@ -1,16 +1,13 @@
-Package: BuildABiocWorkshop
-Title: Bioconductor or R Workshop Template and Github Actions
-Version: 2.0.0
+Package: OHCA_Bioc2023
+Title: Package Demo: Orchestrating Hi-C analysis with Bioconductor
+Version: 0.0.90
 Authors@R: 
-    person(given = "Sean",
-           family = "Davis",
+    person(given = "Jacques",
+           family = "Serizay",
            role = c("aut", "cre"),
-           email = "seandavi@gmail.com",
-           comment = c(ORCID = "0000-0002-8991-6458"))
-Description: This package serves as a template for using github actions to 
-    prepare a Bioconductor Workshop package for use. In particular,
-    a pkgdown website and docker image are generated based on workflow 
-    settings. 
+           email = "jacquesserizay@gmail.com")
+Description: This companion package supports the package demonstration 
+    for the OHCA ecosystem for Hi-C analysis in Bioconductor. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -22,7 +19,7 @@ Suggests:
     knitr,
     rmarkdown,
     pkgdown
-URL: https://seandavi.github.io/BuildABiocWorkshop/
-BugReports: https://github.com/seandavi/BuildABiocWorkshop/issues/new/choose
+URL: https://js2264.github.io/OHCA_Bioc2023/
+BugReports: https://github.com/js2264/OHCA_Bioc2023/issues/new
 VignetteBuilder: knitr
-DockerImage: ghcr.io/seandavi/buildabiocworkshop:latest
+DockerImage: ghcr.io/js2264/ohca_bioc2023:latest
