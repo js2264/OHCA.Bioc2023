@@ -1,18 +1,8 @@
 url: https://js2264.github.io/OHCA.Bioc2023
 
 template:
-  params:
-    bootswatch: flatly
-    #ganalytics: UA-99999999-9
-
-home:
-  title: "OHCA.Bioc2023"
-  type: inverse
-
-
-navbar:
-  right:
-   - icon: fa-github
-     href: https://github.com/js2264/OHCA.Bioc2023
-     
-
+  bootstrap: 5
+  bslib:
+    primary: "#0054AD"
+    border-radius: 0.5rem
+    btn-border-radius: 0.25rem
