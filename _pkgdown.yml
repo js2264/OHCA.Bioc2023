@@ -1,4 +1,4 @@
-url: https://js2264.github.io/OHCA_Bioc2023
+url: https://js2264.github.io/OHCA.Bioc2023
 
 template:
   params:
@@ -6,13 +6,13 @@ template:
     #ganalytics: UA-99999999-9
 
 home:
-  title: "OHCA_Bioc2023"
+  title: "OHCA.Bioc2023"
   type: inverse
 
 
 navbar:
   right:
    - icon: fa-github
-     href: https://github.com/js2264/OHCA_Bioc2023
+     href: https://github.com/js2264/OHCA.Bioc2023
      
 

@@ -1,4 +1,4 @@
-Package: OHCA_Bioc2023
+Package: OHCA.Bioc2023
 Title: Package Demo: Orchestrating Hi-C analysis with Bioconductor
 Version: 0.0.90
 Authors@R: 
@@ -19,7 +19,7 @@ Suggests:
     knitr,
     rmarkdown,
     pkgdown
-URL: https://js2264.github.io/OHCA_Bioc2023/
-BugReports: https://github.com/js2264/OHCA_Bioc2023/issues/new
+URL: https://js2264.github.io/OHCA.Bioc2023/
+BugReports: https://github.com/js2264/OHCA.Bioc2023/issues/new
 VignetteBuilder: knitr
-DockerImage: ghcr.io/js2264/ohca_bioc2023:latest
+DockerImage: ghcr.io/js2264/ohca.bioc2023:latest
