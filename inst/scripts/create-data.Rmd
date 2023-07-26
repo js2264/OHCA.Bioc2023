@@ -1,0 +1,13 @@
+- This snippets creates the background image on the first slide
+
+```{r}
+library(fourDNData)
+library(HiCExperiment)
+library(HiContacts)
+library(tidyverse)
+hic <- import('~/.cache/R/fourDNData/4d434d8538a0_4DNFI9FVHJZQ.mcool', focus = 'chr3:98800000-117400000', resolution = 5000)
+hic <- hic |> detrend() 
+p <- plotMatrix(hic, use.scores = 'detrended', scale = 'linear', limits = c(-2.5, 2.5), cmap = rainbowColors())
+ggsave('figures/4DNFI9FVHJZQ_MicroC-HFFc6-Krietenstein.pdf', width = 15, height = 15)
+```
+

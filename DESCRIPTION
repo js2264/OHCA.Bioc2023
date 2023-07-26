@@ -14,7 +14,10 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
 Depends: 
-    Biobase
+    R (>= 4.3)
+Imports: 
+    multiHiCcompare,
+    sessioninfo
 Suggests: 
     knitr,
     rmarkdown,
