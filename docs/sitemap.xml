@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://js2264.github.io/OHCA.Bioc2023/inst/scripts/create-data.html</loc>
+    <lastmod>2023-07-26T10:57:20.123Z</lastmod>
+  </url>
+  <url>
+    <loc>https://js2264.github.io/OHCA.Bioc2023/LICENSE.html</loc>
+    <lastmod>2023-07-26T10:57:20.331Z</lastmod>
+  </url>
+  <url>
+    <loc>https://js2264.github.io/OHCA.Bioc2023/slides.html</loc>
+    <lastmod>2023-07-26T10:57:20.495Z</lastmod>
+  </url>
+  <url>
+    <loc>https://js2264.github.io/OHCA.Bioc2023/index.html</loc>
+    <lastmod>2023-07-26T10:57:21.831Z</lastmod>
+  </url>
+  <url>
+    <loc>https://js2264.github.io/OHCA.Bioc2023/interoperability.html</loc>
+    <lastmod>2023-07-26T10:57:23.015Z</lastmod>
+  </url>
+  <url>
+    <loc>https://js2264.github.io/OHCA.Bioc2023/parsing.html</loc>
+    <lastmod>2023-07-26T10:57:24.187Z</lastmod>
+  </url>
+  <url>
+    <loc>https://js2264.github.io/OHCA.Bioc2023/visualizing.html</loc>
+    <lastmod>2023-07-26T10:57:25.375Z</lastmod>
+  </url>
+  <url>
+    <loc>https://js2264.github.io/OHCA.Bioc2023/investigating.html</loc>
+    <lastmod>2023-07-26T10:57:26.531Z</lastmod>
+  </url>
+</urlset>
