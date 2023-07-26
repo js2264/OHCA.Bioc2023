@@ -1,0 +1,43 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Hi-C analysis with Bioconductor<br>Package Demo<br>Bioc2023 Conference"
+  reader-mode: false
+  page-footer:
+    left: |
+      OHCA – Package demonstration – Bioc2023 Conference
+    right: |
+      This website was built with <a href="https://quarto.org/">Quarto</a>.
+  site-url: https://js2264.github.io/OHCA.Bioc2023/
+  repo-url: https://github.com/js2264/OHCA.Bioc2023/
+  repo-branch: devel
+  repo-actions: [edit, issue]
+  sidebar: 
+    search: true
+    collapse-level: 5
+    contents: 
+      - index.qmd
+      - slides.qmd
+      - parsing.qmd
+      - visualizing.qmd
+      # - investigating.qmd
+      # - interoperability.qmd
+
+format:
+  html:
+    default-image-extension: pdf
+    theme:
+      - yeti
+      - OHCA.scss
+    code-link: true
+    author-meta: "Jacques Serizay"
+    highlight-style: atom-one-dark.theme
+    citations-hover: true
+    toc: true
+    toc-float: 
+      collapsed: false
+    toc-depth: 3
+
+editor: visual

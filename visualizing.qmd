@@ -1,0 +1,20 @@
+# Visualizing Hi-C data in R
+
+```{r}
+#| echo: false
+#| results: "hide"
+#| message: false
+#| warning: false
+source("_common.R")
+suppressPackageStartupMessages({
+    # library(dplyr)
+    # library(GenomicRanges)
+    # library(HiContactsData)
+    # library(HiContacts)
+    # library(fourDNData)
+    # library(HiCExperiment)
+})
+```
+
+
+
