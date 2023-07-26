@@ -1,4 +1,4 @@
-# Package Demo: Orchestrating Hi-C analysis with Bioconductor
+# Orchestrating Hi-C analysis with Bioconductor
 
 This package is used to support the OHCA package demonstration at the Bioconductor Conference 2023. 
 

@@ -16,6 +16,12 @@ RoxygenNote: 7.1.0
 Depends: 
     R (>= 4.3)
 Imports: 
+    HiCExperiment, 
+    HiContacts, 
+    HiContactsData, 
+    HiCool, 
+    fourDNData, 
+    DNAZooData, 
     multiHiCcompare,
     sessioninfo
 Suggests: 

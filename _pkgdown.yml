@@ -6,3 +6,20 @@ template:
     primary: "#0054AD"
     border-radius: 0.5rem
     btn-border-radius: 0.25rem
+
+navbar:
+  structure:
+    left: [articles]
+    right: [search, github]
+  components:
+    articles:
+      text: Vignettes
+      menu: 
+      - text: 1. Parsing Hi-C data in R
+        href: articles/parsing.html
+      - text: 2. Visualizing Hi-C data in R
+        href: articles/visualizing.html
+      - text: 3. Investigating Hi-C data in R
+        href: articles/investigating.html
+      - text: 4. Interoperability with other Hi-C packages in R
+        href: articles/interoperability.html
