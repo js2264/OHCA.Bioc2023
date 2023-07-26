@@ -2,8 +2,11 @@ pandoc: 3.1.1
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
-  OHCA.Bioc2023: OHCA.Bioc2023.html
-last_built: 2023-07-25T09:33Z
+  interoperability: interoperability.html
+  investigating: investigating.html
+  parsing: parsing.html
+  visualizing: visualizing.html
+last_built: 2023-07-26T09:22Z
 urls:
   reference: https://js2264.github.io/OHCA.Bioc2023/reference
   article: https://js2264.github.io/OHCA.Bioc2023/articles

@@ -37,13 +37,13 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="reference/index.html">Reference</a>
-</li>
 <li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/OHCA.Bioc2023.html">Orchestrating Hi-C analysis with Bioconductor</a>
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-vignettes">Vignettes</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-vignettes">
+    <a class="dropdown-item" href="articles/parsing.html">1. Parsing Hi-C data in R</a>
+    <a class="dropdown-item" href="articles/visualizing.html">2. Visualizing Hi-C data in R</a>
+    <a class="dropdown-item" href="articles/investigating.html">3. Investigating Hi-C data in R</a>
+    <a class="dropdown-item" href="articles/interoperability.html">4. Interoperability with other Hi-C packages in R</a>
   </div>
 </li>
       </ul>
@@ -66,12 +66,63 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="package-demo-orchestrating-hi-c-analysis-with-bioconductor">Package Demo: Orchestrating Hi-C analysis with Bioconductor<a class="anchor" aria-label="anchor" href="#package-demo-orchestrating-hi-c-analysis-with-bioconductor"></a>
+<div class="page-header"><h1 id="orchestrating-hi-c-analysis-with-bioconductor">Orchestrating Hi-C analysis with Bioconductor<a class="anchor" aria-label="anchor" href="#orchestrating-hi-c-analysis-with-bioconductor"></a>
 </h1></div>
 <p>This package is used to support the OHCA package demonstration at the Bioconductor Conference 2023.</p>
 <div class="section level2">
-<h2 id="to-quickly-use-the-package-docker-image">To quickly use the package Docker image:<a class="anchor" aria-label="anchor" href="#to-quickly-use-the-package-docker-image"></a>
+<h2 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h2>
+<p>This is a package demonstration for the <code>OHCA</code> ecosystem, including the following packages :</p>
+<ul>
+<li><code>HiCool</code></li>
+<li><code>HiCExperiment</code></li>
+<li><code>HiContacts</code></li>
+<li><code>fourDNData</code></li>
+</ul>
+<p>The OHCA book is available <a href="https://jserizay.com/OHCA/" class="external-link">here</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="pre-requisites">Pre-requisites<a class="anchor" aria-label="anchor" href="#pre-requisites"></a>
+</h2>
+<ul>
+<li>Familiarity with the <code>tidyverse</code> syntax;</li>
+<li>Familiarity with the <code>GenomicRanges</code> class;</li>
+<li>Basic understanding of Hi-C principles</li>
+</ul>
+<p>For more information on Hi-C experimental approach and principles, read <a href="https://jserizay.com/OHCA/principles.html" class="external-link">OHCA book first chapter</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="time-outline">Time outline<a class="anchor" aria-label="anchor" href="#time-outline"></a>
+</h2>
+<table class="table">
+<thead><tr class="header">
+<th>Activity</th>
+<th>Time</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Introduction to Hi-C</td>
+<td>10m</td>
+</tr>
+<tr class="even">
+<td>OHCA ecosystem</td>
+<td>10m</td>
+</tr>
+<tr class="odd">
+<td>Demonstration with real data</td>
+<td>20m</td>
+</tr>
+<tr class="even">
+<td>Wrapping up</td>
+<td>5m</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section level2">
+<h2 id="docker-image">Docker image:<a class="anchor" aria-label="anchor" href="#docker-image"></a>
+</h2>
+<p>To quickly use the package Docker image:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-e</span> PASSWORD=<span class="op">&lt;</span>choose_a_password_for_rstudio<span class="op">&gt;</span> -p 8787:8787 ghcr.io/js2264/ohca</span></code></pre></div>
 <p>Once running, navigate to <a href="http://localhost:8787/" class="external-link uri">http://localhost:8787/</a> and then login with <code>rstudio</code>:<code>yourchosenpassword</code>.</p>
 </div>
