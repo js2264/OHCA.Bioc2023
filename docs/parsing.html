@@ -18,6 +18,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -32,6 +66,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
@@ -118,14 +153,389 @@ ul.task-list li input[type="checkbox"] {
 <li>
 <a href="#parsing-hi-c-data-in-r" id="toc-parsing-hi-c-data-in-r" class="nav-link active" data-scroll-target="#parsing-hi-c-data-in-r">Parsing Hi-C data in R</a>
   <ul class="collapse">
-<li><a href="#processing-hi-c-paired-end-reads-in-r" id="toc-processing-hi-c-paired-end-reads-in-r" class="nav-link" data-scroll-target="#processing-hi-c-paired-end-reads-in-r">Processing Hi-C paired-end reads in R</a></li>
+<li>
+<a href="#processing-hi-c-paired-end-reads-in-r" id="toc-processing-hi-c-paired-end-reads-in-r" class="nav-link" data-scroll-target="#processing-hi-c-paired-end-reads-in-r">Processing Hi-C paired-end reads in R</a>
+  <ul class="collapse">
+<li><a href="#runninng-hicool" id="toc-runninng-hicool" class="nav-link" data-scroll-target="#runninng-hicool">Runninng <code>HiCool</code></a></li>
+  <li><a href="#hicool-outputs" id="toc-hicool-outputs" class="nav-link" data-scroll-target="#hicool-outputs"><code>HiCool</code> outputs</a></li>
+  <li><a href="#coolfile" id="toc-coolfile" class="nav-link" data-scroll-target="#coolfile"><code>CoolFile</code></a></li>
+  </ul>
+</li>
+  <li>
+<a href="#importing-hi-c-contact-maps-in-r" id="toc-importing-hi-c-contact-maps-in-r" class="nav-link" data-scroll-target="#importing-hi-c-contact-maps-in-r">Importing Hi-C contact maps in R</a>
+  <ul class="collapse">
+<li><a href="#importing-and-subsetting" id="toc-importing-and-subsetting" class="nav-link" data-scroll-target="#importing-and-subsetting">Importing and subsetting</a></li>
+  <li><a href="#slots" id="toc-slots" class="nav-link" data-scroll-target="#slots">Slots</a></li>
+  </ul>
+</li>
+  <li><a href="#read-more" id="toc-read-more" class="nav-link" data-scroll-target="#read-more">Read more</a></li>
+  <li><a href="#session-info" id="toc-session-info" class="nav-link" data-scroll-target="#session-info">Session info</a></li>
   </ul>
 </li>
   </ul><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/js2264/OHCA.Bioc2023/edit/devel/parsing.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/js2264/OHCA.Bioc2023/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><section id="parsing-hi-c-data-in-r" class="level1"><h1>Parsing Hi-C data in R</h1>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Docker image
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>All the packages used in this demo are available in the following <code>docker</code> image:</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-2_094e26e55ad1a22fcf6e2b01dee3ea34">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>sh</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run ghcr.io/js2264/ohca</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
 <section id="processing-hi-c-paired-end-reads-in-r" class="level2"><h2 class="anchored" data-anchor-id="processing-hi-c-paired-end-reads-in-r">Processing Hi-C paired-end reads in R</h2>
+<section id="runninng-hicool" class="level3"><h3 class="anchored" data-anchor-id="runninng-hicool">Runninng <code>HiCool</code>
+</h3>
+<p>A pair of <code>fastq</code> files can be parsed into <code>.pairs</code> and <code>.(m)cool</code> files with <code>HiCool</code>.</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-3_c3325955496e9f0808e9ba3a6cdec478">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R</strong></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiCool">HiCool</a></span><span class="op">)</span></span>
+<span><span class="op">?</span><span class="va">HiCool</span></span>
+<span><span class="fu">HiCool</span><span class="fu">:::</span><span class="va">env_HiCool</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<code>HiCool</code> vs.&nbsp;<code>hicstuff</code> 👇
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><code>HiCool</code> mostly operates as a wrapper to the lightweight python-based <a href="https://hicstuff.readthedocs.io/en/latest/"><code>hicstuff</code> library</a>. What <code>HiCool</code> really does is running <code>hicstuff pipeline</code>. You can replicate this outside of <code>R</code> console, directly in the terminal, by running:</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-4_db562e47f9625e0c76657215a306f479">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>sh</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">hicstuff</span> pipeline <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>   <span class="op">&lt;</span>hicstuff-options<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">--genome</span> <span class="op">&lt;</span>genome.fa<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>   <span class="op">&lt;</span>input.R1.fq.gz<span class="op">&gt;</span> <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>   <span class="op">&lt;</span>input.R2.fq.gz<span class="op">&gt;</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">################################################################################</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">##                     hicstuff important options                             ##</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">################################################################################</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex">hicstuff</span> pipeline <span class="at">--help</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">##        -D | --duplicates         Filter out PCR duplicates based on read</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  positions.</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">##        -e | --enzyme={STR|INT}   Restriction enzyme or "mnase" if a string,</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  or chunk size (i.e. resolution) if a number.</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  Can also be multiple comma-separated</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  enzymes. [default: 5000]</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">##        -f | --filter             Filter out spurious 3C events (loops and</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  uncuts) using hicstuff filter. Requires</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  "-e" to be a restriction enzyme or mnase,</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  not a chunk size. For more informations, see</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  Cournac et al. BMC Genomics, 2012.</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">##        -m | --mapping=STR        normal|iterative|cutsite. Parameter of</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  mapping. "normal": Directly map reads</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  without any process. "iterative": Map</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  reads iteratively using iteralign, by</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  truncating reads to 20bp and then</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  repeatedly extending to align them.</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  "cutsite": Cut reads at the religation</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  sites of the given enzyme using cutsite,</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  create new pairs of reads and then align</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  them ; enzyme is required [default: normal].</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="co">##        -M | --matfmt=STR         The format of the output sparse matrix.</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  Can be "bg2" for 2D Bedgraph format,</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  "cool" for Mirnylab's cooler software, or</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  "graal" for graal-compatible plain text</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  COO format. [default: graal]</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="co">##        -n | --no-cleanup         If enabled, intermediary BED files will</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  be kept after generating the contact map.</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  Disabled by defaut.</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co">##        -o | --outdir=DIR         Output directory. Defaults to the current</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  directory.</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="co">##        -p | --plot               Generates plots in the output directory</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  at different steps of the pipeline.</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="co">##        -t | --threads=INT        Number of threads to allocate.</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co">##                                  [default: 1].</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>A call to <code><a href="https://rdrr.io/pkg/HiCool/man/HiCool.html">HiCool()</a></code> triggers <code>hicstuff</code> pipeline to process <code>fastq</code> files into <code>.pairs</code> and <code>.(m)cool</code> files, and returns a <code>CoolFile</code> object in <code>R</code>, along with HTML reports.</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-5_d36b74b6ed3c5d409847596e56a6027e">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R</strong></pre>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiCool">HiCool</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiContactsData">HiContactsData</a></span><span class="op">)</span></span>
+<span><span class="va">r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiContactsData/man/HiContactsData.html">HiContactsData</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="st">'yeast_wt'</span>, format <span class="op">=</span> <span class="st">'fastq_R1'</span><span class="op">)</span></span>
+<span><span class="va">r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiContactsData/man/HiContactsData.html">HiContactsData</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="st">'yeast_wt'</span>, format <span class="op">=</span> <span class="st">'fastq_R2'</span><span class="op">)</span></span>
+<span><span class="va">hcf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiCool/man/HiCool.html">HiCool</a></span><span class="op">(</span></span>
+<span>    <span class="va">r1</span>, <span class="va">r2</span>, </span>
+<span>    restriction <span class="op">=</span> <span class="st">'DpnII,HinfI'</span>, </span>
+<span>    genome <span class="op">=</span> <span class="st">'R64-1-1'</span>, </span>
+<span>    output <span class="op">=</span> <span class="st">'./HiCool/'</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section><section id="hicool-outputs" class="level3"><h3 class="anchored" data-anchor-id="hicool-outputs">
+<code>HiCool</code> outputs</h3>
+<p>You can check the generated output files placed in the <code>HiCool/</code> directory.</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-6_7bab4ab23693f3e4adf542b52238406c">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># hcf &lt;- HiCool::importHiCoolFolder('HiCool', hash = 'SBDPJB')</span></span>
+<span><span class="va">hcf</span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html">dir_tree</a></span><span class="op">(</span><span class="st">'HiCool/'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>The <code>*.pairs</code> and <code>*.mcool</code> files are the pairs and contact matrix files, respectively. <strong>These are the output files the end-user is generally looking for.</strong>
+</li>
+<li>The <code>*.html</code> file is a report summarizing pairs numbers, filtering, etc…</li>
+<li>The <code>*.log</code> file contains all output and error messages, as well as the full list of commands that have been executed to pre-process the input dataset.</li>
+<li>The <code>*.pdf</code> graphic files provide a visual representation of the distribution of informative/non-informative pairs.</li>
+</ul></section><section id="coolfile" class="level3"><h3 class="anchored" data-anchor-id="coolfile"><code>CoolFile</code></h3>
+<p>A pointer to a local <code>.(m)cool</code> file (or <code>.hic</code>, HiC-Pro-style or <code>.pairs</code> file) can also be manually created:</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-7_b2cb1d1279567bd00635c10fa4eabd46">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R</strong></pre>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiCExperiment">HiCExperiment</a></span><span class="op">)</span></span>
+<span><span class="va">mcool</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiContactsData/man/HiContactsData.html">HiContactsData</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="st">'yeast_wt'</span>, format <span class="op">=</span> <span class="st">'mcool'</span><span class="op">)</span></span>
+<span><span class="va">mcool</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">availableResolutions</a></span><span class="op">(</span><span class="va">mcool</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">availableChromosomes</a></span><span class="op">(</span><span class="va">mcool</span><span class="op">)</span></span>
+<span><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/CoolFile-class.html">CoolFile</a></span><span class="op">(</span><span class="va">mcool</span><span class="op">)</span></span>
+<span><span class="va">cf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section></section><section id="importing-hi-c-contact-maps-in-r" class="level2"><h2 class="anchored" data-anchor-id="importing-hi-c-contact-maps-in-r">Importing Hi-C contact maps in R</h2>
+<section id="importing-and-subsetting" class="level3"><h3 class="anchored" data-anchor-id="importing-and-subsetting">Importing and subsetting</h3>
+<p>A full contact map can be imported in <code>R</code> with <code>import</code>.</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-8_24b9b63b0ebe5a948b11ef2bca21fe21">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R</strong></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>A specific resollution can be specified with the <code>resolution</code>:</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-9_479026f0efbb140bf1070c67dc187446">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R</strong></pre>
+</div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, resolution <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>A subset of the contact map can be imported in <code>R</code> by specifying a <code>focus</code> as a string:</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-10_be4d2e00939c2a4c0ec31e694c93907d">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R</strong></pre>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, focus <span class="op">=</span> <span class="st">'I'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, focus <span class="op">=</span> <span class="st">'I:1-40000'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, focus <span class="op">=</span> <span class="st">'I|II'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, focus <span class="op">=</span> <span class="st">'I:1-40000|II:2001-40000'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>Subsetting can also be performed once the matrix has been loaded in memory:</p>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-11_d89fc120291d081fd0342d019a71badc">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R</strong></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges">GenomicRanges</a></span><span class="op">)</span></span>
+<span><span class="va">hic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span>
+<span><span class="va">hic</span></span>
+<span><span class="va">hic</span><span class="op">[</span><span class="st">"I:1-40000"</span><span class="op">]</span></span>
+<span><span class="co">## or ...</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html">subsetByOverlaps</a></span><span class="op">(</span><span class="va">hic</span>, <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span><span class="st">"I:1-40000"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section><section id="slots" class="level3"><h3 class="anchored" data-anchor-id="slots">Slots</h3>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-12_d3fec87e9c817fb6da5e17126153db92">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R</strong></pre>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/RClassUtils.html">showClass</a></span><span class="op">(</span><span class="st">"HiCExperiment"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## -- Extract informations</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/fileName.html">fileName</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">resolutions</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">resolution</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqinfo.html">seqinfo</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span> </span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Annotated-class.html">metadata</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## -- Extract data</span></span>
+<span><span class="fu">interactions</span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">scores</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">## -- Extract extra data</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">topologicalFeatures</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">pairsFile</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section></section><section id="read-more" class="level2"><h2 class="anchored" data-anchor-id="read-more">Read more</h2>
+<p>Read the following sections from the OHCA book:</p>
+<ul>
+<li><a href="https://jserizay.com/OHCA/data-representation.html#hicexperiment-class">HiCExperiment class presentation</a></li>
+<li><a href="https://jserizay.com/OHCA/parsing.html">HiCExperiment class manipulation</a></li>
+</ul></section><section id="session-info" class="level2"><h2 class="anchored" data-anchor-id="session-info">Session info</h2>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-13_e0e21bcaac72adc44296c62a290d2d14">
+<pre><code>##  ─ Session info ────────────────────────────────────────────────────────────
+##   setting  value
+##   version  R version 4.3.0 (2023-04-21)
+##   os       Ubuntu 18.04.6 LTS
+##   system   x86_64, linux-gnu
+##   ui       X11
+##   language (EN)
+##   collate  en_US.UTF-8
+##   ctype    en_US.UTF-8
+##   tz       Europe/Paris
+##   date     2023-07-28
+##   pandoc   2.13 @ /usr/bin/ (via rmarkdown)
+##  
+##  ─ Packages ────────────────────────────────────────────────────────────────
+##   package                * version   date (UTC) lib source
+##   abind                    1.4-5     2016-07-21 [1] CRAN (R 4.3.0)
+##   AnnotationDbi            1.62.2    2023-07-02 [1] Bioconductor
+##   AnnotationHub          * 3.8.0     2023-04-25 [1] Bioconductor
+##   basilisk                 1.12.1    2023-06-30 [1] Bioconductor
+##   basilisk.utils           1.12.1    2023-05-19 [1] Bioconductor
+##   Biobase                  2.60.0    2023-04-25 [1] Bioconductor
+##   BiocFileCache          * 2.8.0     2023-04-25 [1] Bioconductor
+##   BiocGenerics           * 0.46.0    2023-04-25 [1] Bioconductor
+##   BiocIO                   1.10.0    2023-04-25 [1] Bioconductor
+##   BiocManager              1.30.21.1 2023-07-18 [1] CRAN (R 4.3.0)
+##   BiocParallel             1.34.2    2023-05-22 [1] Bioconductor
+##   BiocVersion              3.17.1    2022-11-04 [1] Bioconductor
+##   Biostrings               2.68.1    2023-05-16 [1] Bioconductor
+##   bit                      4.0.5     2022-11-15 [1] CRAN (R 4.3.0)
+##   bit64                    4.0.5     2020-08-30 [1] CRAN (R 4.3.0)
+##   bitops                   1.0-7     2021-04-24 [1] CRAN (R 4.3.0)
+##   blob                     1.2.4     2023-03-17 [1] CRAN (R 4.3.0)
+##   bookdown                 0.34      2023-05-09 [1] CRAN (R 4.3.0)
+##   cachem                   1.0.8     2023-05-01 [1] CRAN (R 4.3.0)
+##   cli                      3.6.1     2023-03-23 [1] CRAN (R 4.3.0)
+##   codetools                0.2-19    2023-02-01 [1] CRAN (R 4.3.0)
+##   colorspace               2.1-0     2023-01-23 [1] CRAN (R 4.3.0)
+##   crayon                   1.5.2     2022-09-29 [1] CRAN (R 4.3.0)
+##   curl                     5.0.1     2023-06-07 [1] CRAN (R 4.3.0)
+##   data.table               1.14.8    2023-02-17 [1] CRAN (R 4.3.0)
+##   DBI                      1.1.3     2022-06-18 [1] CRAN (R 4.3.0)
+##   dbplyr                 * 2.3.3     2023-07-07 [1] CRAN (R 4.3.0)
+##   DelayedArray             0.26.6    2023-07-02 [1] Bioconductor
+##   digest                   0.6.33    2023-07-07 [1] CRAN (R 4.3.0)
+##   dir.expiry               1.8.0     2023-04-25 [1] Bioconductor
+##   dplyr                    1.1.2     2023-04-20 [1] CRAN (R 4.3.0)
+##   ellipsis                 0.3.2     2021-04-29 [1] CRAN (R 4.3.0)
+##   evaluate                 0.21      2023-05-05 [1] CRAN (R 4.3.0)
+##   ExperimentHub          * 2.8.1     2023-07-12 [1] Bioconductor
+##   fansi                    1.0.4     2023-01-22 [1] CRAN (R 4.3.0)
+##   fastmap                  1.1.1     2023-02-24 [1] CRAN (R 4.3.0)
+##   filelock                 1.0.2     2018-10-05 [1] CRAN (R 4.3.0)
+##   generics                 0.1.3     2022-07-05 [1] CRAN (R 4.3.0)
+##   GenomeInfoDb           * 1.36.1    2023-06-21 [1] Bioconductor
+##   GenomeInfoDbData         1.2.10    2023-04-02 [1] Bioconductor
+##   GenomicRanges          * 1.52.0    2023-04-25 [1] Bioconductor
+##   ggplot2                  3.4.2     2023-04-03 [1] CRAN (R 4.3.0)
+##   glue                     1.6.2     2022-02-24 [1] CRAN (R 4.3.0)
+##   gtable                   0.3.3     2023-03-21 [1] CRAN (R 4.3.0)
+##   HiCExperiment          * 1.1.1     2023-07-27 [1] Github (js2264/HiCExperiment@9e8f7bb)
+##   HiContactsData         * 1.3.0     2023-05-26 [1] Github (js2264/HiContactsData@adcb51f)
+##   HiCool                 * 1.1.0     2023-07-27 [1] local (/home/rsg/repos/HiCool)
+##   htmltools                0.5.5     2023-03-23 [1] CRAN (R 4.3.0)
+##   htmlwidgets              1.6.2     2023-03-17 [1] CRAN (R 4.3.0)
+##   httpuv                   1.6.11    2023-05-11 [1] CRAN (R 4.3.0)
+##   httr                     1.4.6     2023-05-08 [1] CRAN (R 4.3.0)
+##   InteractionSet           1.29.1    2023-06-13 [1] Github (LTLA/InteractionSet@62cd50a)
+##   interactiveDisplayBase   1.38.0    2023-04-25 [1] Bioconductor
+##   IRanges                * 2.34.1    2023-06-22 [1] Bioconductor
+##   jsonlite                 1.8.7     2023-06-29 [1] CRAN (R 4.3.0)
+##   KEGGREST                 1.40.0    2023-04-25 [1] Bioconductor
+##   knitr                    1.43      2023-05-25 [1] CRAN (R 4.3.0)
+##   later                    1.3.1     2023-05-02 [1] CRAN (R 4.3.0)
+##   lattice                  0.21-8    2023-04-05 [1] CRAN (R 4.3.0)
+##   lazyeval                 0.2.2     2019-03-15 [1] CRAN (R 4.3.0)
+##   lifecycle                1.0.3     2022-10-07 [1] CRAN (R 4.3.0)
+##   magrittr                 2.0.3     2022-03-30 [1] CRAN (R 4.3.0)
+##   Matrix                   1.6-0     2023-07-08 [1] CRAN (R 4.3.0)
+##   MatrixGenerics           1.12.2    2023-06-09 [1] Bioconductor
+##   matrixStats              1.0.0     2023-06-02 [1] CRAN (R 4.3.0)
+##   memoise                  2.0.1     2021-11-26 [1] CRAN (R 4.3.0)
+##   mime                     0.12      2021-09-28 [1] CRAN (R 4.3.0)
+##   munsell                  0.5.0     2018-06-12 [1] CRAN (R 4.3.0)
+##   pillar                   1.9.0     2023-03-22 [1] CRAN (R 4.3.0)
+##   pkgconfig                2.0.3     2019-09-22 [1] CRAN (R 4.3.0)
+##   plotly                   4.10.2    2023-06-03 [1] CRAN (R 4.3.0)
+##   png                      0.1-8     2022-11-29 [1] CRAN (R 4.3.0)
+##   promises                 1.2.0.1   2021-02-11 [1] CRAN (R 4.3.0)
+##   purrr                    1.0.1     2023-01-10 [1] CRAN (R 4.3.0)
+##   R6                       2.5.1     2021-08-19 [1] CRAN (R 4.3.0)
+##   rappdirs                 0.3.3     2021-01-31 [1] CRAN (R 4.3.0)
+##   Rcpp                     1.0.11    2023-07-06 [1] CRAN (R 4.3.0)
+##   RCurl                    1.98-1.12 2023-03-27 [1] CRAN (R 4.3.0)
+##   reticulate               1.30      2023-06-09 [1] CRAN (R 4.3.0)
+##   rhdf5                    2.44.0    2023-04-25 [1] Bioconductor
+##   rhdf5filters             1.12.1    2023-04-30 [1] Bioconductor
+##   Rhdf5lib                 1.22.0    2023-04-25 [1] Bioconductor
+##   rlang                    1.1.1     2023-04-28 [1] CRAN (R 4.3.0)
+##   rmarkdown                2.23      2023-07-01 [1] CRAN (R 4.3.0)
+##   rmdformats               1.0.4     2022-05-17 [1] CRAN (R 4.3.0)
+##   RSQLite                  2.3.1     2023-04-03 [1] CRAN (R 4.3.0)
+##   rstudioapi               0.15.0    2023-07-07 [1] CRAN (R 4.3.0)
+##   S4Arrays                 1.0.5     2023-07-24 [1] Bioconductor
+##   S4Vectors              * 0.38.1    2023-05-02 [1] Bioconductor
+##   scales                   1.2.1     2022-08-20 [1] CRAN (R 4.3.0)
+##   sessioninfo              1.2.2     2021-12-06 [1] CRAN (R 4.3.0)
+##   shiny                    1.7.4.1   2023-07-06 [1] CRAN (R 4.3.0)
+##   strawr                   0.0.91    2023-03-29 [1] CRAN (R 4.3.0)
+##   stringi                  1.7.12    2023-01-11 [1] CRAN (R 4.3.0)
+##   stringr                  1.5.0     2022-12-02 [1] CRAN (R 4.3.0)
+##   SummarizedExperiment     1.30.2    2023-06-06 [1] Bioconductor
+##   tibble                   3.2.1     2023-03-20 [1] CRAN (R 4.3.0)
+##   tidyr                    1.3.0     2023-01-24 [1] CRAN (R 4.3.0)
+##   tidyselect               1.2.0     2022-10-10 [1] CRAN (R 4.3.0)
+##   tzdb                     0.4.0     2023-05-12 [1] CRAN (R 4.3.0)
+##   utf8                     1.2.3     2023-01-31 [1] CRAN (R 4.3.0)
+##   vctrs                    0.6.3     2023-06-14 [1] CRAN (R 4.3.0)
+##   viridisLite              0.4.2     2023-05-02 [1] CRAN (R 4.3.0)
+##   vroom                    1.6.3     2023-04-28 [1] CRAN (R 4.3.0)
+##   xfun                     0.39      2023-04-20 [1] CRAN (R 4.3.0)
+##   xtable                   1.8-4     2019-04-21 [1] CRAN (R 4.3.0)
+##   XVector                  0.40.0    2023-04-25 [1] Bioconductor
+##   yaml                     2.3.7     2023-01-23 [1] CRAN (R 4.3.0)
+##   zlibbioc                 1.46.0    2023-04-25 [1] Bioconductor
+##  
+##   [1] /home/rsg/R/x86_64-pc-linux-gnu-library/4.3
+##   [2] /usr/local/lib/R-4.3/lib/R/library
+##  
+##  ───────────────────────────────────────────────────────────────────────────</code></pre>
+</div>
 
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

@@ -38,7 +38,7 @@ read [OHCA book first chapter](https://jserizay.com/OHCA/principles.html).
 | Demonstration with real data | 20m  |
 | Wrapping up                  | 5m   |
 
-## Docker image:
+## Docker image
 
 To quickly use the package Docker image:
 

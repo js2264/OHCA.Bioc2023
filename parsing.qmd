@@ -1,19 +1,220 @@
+---
+execute: 
+    eval: false
+---
+
 # Parsing Hi-C data in R
 
 ```{r}
+#| eval: true
 #| echo: false
 #| results: "hide"
 #| message: false
 #| warning: false
 source("_common.R")
 suppressPackageStartupMessages({
-    # library(dplyr)
-    # library(GenomicRanges)
-    # library(HiContactsData)
-    # library(HiContacts)
-    # library(fourDNData)
-    # library(HiCExperiment)
+    library(GenomicRanges)
+    library(HiContactsData)
+    library(HiCExperiment)
+    library(HiCool)
 })
 ```
 
+::: {.callout-tip icon='true'}
+## Docker image 
+All the packages used in this demo are available in the following `docker` image: 
+
+```{sh filename = 'sh'}
+docker run ghcr.io/js2264/ohca
+```
+:::
+
 ## Processing Hi-C paired-end reads in R
+
+### Runninng `HiCool` 
+
+A pair of `fastq` files can be parsed into `.pairs` and `.(m)cool` files with 
+`HiCool`. 
+
+```{r filename = 'R'}
+library(HiCool)
+?HiCool
+HiCool:::env_HiCool
+```
+
+::: {.callout-tip collapse="true"} 
+#### `HiCool` vs. `hicstuff` 👇
+`HiCool` mostly operates as a wrapper to the lightweight python-based 
+[`hicstuff` library](https://hicstuff.readthedocs.io/en/latest/). What 
+`HiCool` really does is running `hicstuff pipeline`. You can replicate 
+this outside of `R` console, directly in the terminal, by running: 
+
+```{sh filename = 'sh'}
+hicstuff pipeline \
+   <hicstuff-options> \
+   --genome <genome.fa> \
+   <input.R1.fq.gz> \
+   <input.R2.fq.gz> 
+
+################################################################################
+##                     hicstuff important options                             ##
+################################################################################
+
+hicstuff pipeline --help
+
+##        -D | --duplicates         Filter out PCR duplicates based on read
+##                                  positions.
+##        -e | --enzyme={STR|INT}   Restriction enzyme or "mnase" if a string,
+##                                  or chunk size (i.e. resolution) if a number.
+##                                  Can also be multiple comma-separated
+##                                  enzymes. [default: 5000]
+##        -f | --filter             Filter out spurious 3C events (loops and
+##                                  uncuts) using hicstuff filter. Requires
+##                                  "-e" to be a restriction enzyme or mnase,
+##                                  not a chunk size. For more informations, see
+##                                  Cournac et al. BMC Genomics, 2012.
+##        -m | --mapping=STR        normal|iterative|cutsite. Parameter of
+##                                  mapping. "normal": Directly map reads
+##                                  without any process. "iterative": Map
+##                                  reads iteratively using iteralign, by
+##                                  truncating reads to 20bp and then
+##                                  repeatedly extending to align them.
+##                                  "cutsite": Cut reads at the religation
+##                                  sites of the given enzyme using cutsite,
+##                                  create new pairs of reads and then align
+##                                  them ; enzyme is required [default: normal].
+##        -M | --matfmt=STR         The format of the output sparse matrix.
+##                                  Can be "bg2" for 2D Bedgraph format,
+##                                  "cool" for Mirnylab's cooler software, or
+##                                  "graal" for graal-compatible plain text
+##                                  COO format. [default: graal]
+##        -n | --no-cleanup         If enabled, intermediary BED files will
+##                                  be kept after generating the contact map.
+##                                  Disabled by defaut.
+##        -o | --outdir=DIR         Output directory. Defaults to the current
+##                                  directory.
+##        -p | --plot               Generates plots in the output directory
+##                                  at different steps of the pipeline.
+##        -t | --threads=INT        Number of threads to allocate.
+##                                  [default: 1].
+```
+:::
+
+A call to `HiCool()` triggers `hicstuff` pipeline to process `fastq` files 
+into `.pairs` and `.(m)cool` files, and returns a `CoolFile` object in `R`, along 
+with HTML reports.
+
+```{r filename = 'R'}
+library(HiCool)
+library(HiContactsData)
+r1 <- HiContactsData(sample = 'yeast_wt', format = 'fastq_R1')
+r2 <- HiContactsData(sample = 'yeast_wt', format = 'fastq_R2')
+hcf <- HiCool(
+    r1, r2, 
+    restriction = 'DpnII,HinfI', 
+    genome = 'R64-1-1', 
+    output = './HiCool/'
+)
+```
+
+### `HiCool` outputs 
+
+You can check the generated output files placed in the `HiCool/` directory. 
+
+```{r}
+# hcf <- HiCool::importHiCoolFolder('HiCool', hash = 'SBDPJB')
+hcf
+fs::dir_tree('HiCool/')
+```
+
+- The `*.pairs` and `*.mcool` files are the pairs and contact matrix files, respectively. **These are the output files the end-user is generally looking for.**
+- The `*.html` file is a report summarizing pairs numbers, filtering, etc...
+- The `*.log` file contains all output and error messages, as well as the full list of commands that have been executed to pre-process the input dataset. 
+- The `*.pdf` graphic files provide a visual representation of the distribution of informative/non-informative pairs. 
+
+### `CoolFile` 
+
+A pointer to a local `.(m)cool` file (or `.hic`, HiC-Pro-style or `.pairs` file)
+can also be manually created: 
+
+```{r filename = 'R'}
+library(HiCExperiment)
+mcool <- HiContactsData(sample = 'yeast_wt', format = 'mcool')
+mcool
+availableResolutions(mcool)
+availableChromosomes(mcool)
+cf <- CoolFile(mcool)
+cf
+```
+
+## Importing Hi-C contact maps in R 
+
+### Importing and subsetting 
+
+A full contact map can be imported in `R` with `import`. 
+
+```{r filename = 'R'}
+import(cf)
+```
+
+A specific resollution can be specified with the `resolution`:
+
+```{r filename = 'R'}
+import(cf, resolution = 2000)
+```
+
+A subset of the contact map can be imported in `R` by specifying a `focus` as a string: 
+
+```{r filename = 'R'}
+import(cf, focus = 'I')
+import(cf, focus = 'I:1-40000')
+import(cf, focus = 'I|II')
+import(cf, focus = 'I:1-40000|II:2001-40000')
+```
+
+Subsetting can also be performed once the matrix has been loaded in memory: 
+
+```{r filename = 'R'}
+library(GenomicRanges)
+hic <- import(cf)
+hic
+hic["I:1-40000"]
+## or ...
+subsetByOverlaps(hic, GRanges("I:1-40000"))
+```
+
+### Slots 
+
+```{r filename = 'R'}
+showClass("HiCExperiment")
+
+## -- Extract informations
+fileName(hic) 
+resolutions(hic) 
+resolution(hic) 
+seqinfo(hic) 
+metadata(hic)
+
+## -- Extract data
+interactions(hic)
+scores(hic)
+
+## -- Extract extra data
+topologicalFeatures(hic)
+pairsFile(hic)
+```
+
+## Read more
+
+Read the following sections from the OHCA book: 
+
+- [HiCExperiment class presentation](https://jserizay.com/OHCA/data-representation.html#hicexperiment-class)
+- [HiCExperiment class manipulation](https://jserizay.com/OHCA/parsing.html)
+
+## Session info 
+
+```{r}
+#| echo: false
+#| eval: true
+sessioninfo::session_info()
+```

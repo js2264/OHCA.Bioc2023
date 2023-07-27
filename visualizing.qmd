@@ -1,20 +1,125 @@
+---
+execute: 
+    eval: false
+---
+
 # Visualizing Hi-C data in R
 
 ```{r}
+#| eval: true
 #| echo: false
 #| results: "hide"
 #| message: false
 #| warning: false
 source("_common.R")
 suppressPackageStartupMessages({
-    # library(dplyr)
-    # library(GenomicRanges)
-    # library(HiContactsData)
-    # library(HiContacts)
-    # library(fourDNData)
-    # library(HiCExperiment)
+    library(HiContactsData)
+    library(HiContacts)
+    library(HiCExperiment)
 })
 ```
 
+::: {.callout-tip icon='true'}
+## Docker image 
+All the packages used in this demo are available in the following `docker` image: 
 
+```{sh filename = 'sh'}
+docker run ghcr.io/js2264/ohca
+```
+:::
 
+::: {.callout-tip collapse="true"}
+## Generating the example `hic` object 👇
+
+To demonstrate how to visualize a `HiCExperiment` contact matrix, we will create 
+an `HiCExperiment` object from an example `.cool` file provided 
+in the `HiContactsData` package. 
+
+```{r eval = FALSE}
+library(HiCExperiment)
+library(HiContactsData)
+
+# ---- This downloads an example `.mcool` file and caches it locally 
+coolf <- HiContactsData('yeast_wt', 'mcool')
+
+# ---- This creates a connection to the disk-stored `.mcool` file
+cf <- CoolFile(coolf)
+cf
+
+# ---- This imports contacts from the chromosome `V` at resolution `2000`
+hic <- import(cf, focus = 'V', resolution = 2000)
+```
+
+```{r}
+hic
+```
+:::
+
+## Visualizing Hi-C contact maps
+
+### Square matrices 
+
+```{r filename = 'R'}
+library(HiContacts)
+plotMatrix(hic)
+```
+
+### Side-by-side matrices
+
+```{r filename = 'R'}
+hic2 <- import(
+    CoolFile(HiContactsData('yeast_eco1', 'mcool')), 
+    focus = 'V', 
+    resolution = 2000
+)
+plotMatrix(hic, compare.to = hic2)
+```
+
+### Plotting multiple chromosomes
+
+```{r filename = 'R'}
+full_hic <- import(cf, resolution = 4000)
+hic_subset <- full_hic[c("III", "IV")]
+plotMatrix(hic_subset)
+```
+
+## Tuning Hi-C contact maps
+
+### Choosing scores
+
+```{r filename = 'R'}
+plotMatrix(hic, use.scores = 'count')
+```
+
+### Choosing scale
+
+```{r filename = 'R'}
+plotMatrix(hic, limits = c(-3.5, -1))
+```
+
+### Choosing color map
+
+```{r filename = 'R'}
+# ----- `afmhotr` color map is shipped in the `HiContacts` package
+afmhotrColors() 
+plotMatrix(
+    hic, 
+    use.scores = 'balanced',
+    limits = c(-4, -1),
+    cmap = afmhotrColors()
+)
+```
+
+## Read more
+
+Read the following sections from the OHCA book: 
+
+- [HiCExperiment visualization](https://jserizay.com/OHCA/visualization.html)
+
+## Session info 
+
+```{r}
+#| echo: false
+#| eval: true
+sessioninfo::session_info()
+```
