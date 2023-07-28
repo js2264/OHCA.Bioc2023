@@ -22,7 +22,7 @@ website:
       - slides.qmd
       - parsing.qmd
       - visualizing.qmd
-      # - investigating.qmd
+      - investigating.qmd
       # - interoperability.qmd
 
 format:

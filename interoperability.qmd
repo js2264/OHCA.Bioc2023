@@ -7,12 +7,34 @@
 #| warning: false
 source("_common.R")
 suppressPackageStartupMessages({
-    # library(dplyr)
-    # library(GenomicRanges)
-    # library(HiContactsData)
-    # library(HiContacts)
-    # library(fourDNData)
-    # library(HiCExperiment)
+    library(HiContactsData)
+    library(HiContacts)
+    library(HiCExperiment)
 })
 ```
 
+## Coercing HiCExperiment objects
+
+```{r}
+hic <- import(
+    CoolFile(HiContactsData('yeast_wt', 'mcool')), 
+    focus = 'II', 
+    resolution = 2000
+)
+```
+
+
+## Read more
+
+Read the following sections from the OHCA book: 
+
+- [HiCExperiment coercion](https://jserizay.com/OHCA/parsing.html#coercing-hicexperiment-objects)
+- [Interoperability of HiCExperiment with other R packages](https://jserizay.com/OHCA/interoperability.html)
+
+## Session info 
+
+```{r}
+#| echo: false
+#| eval: true
+sessioninfo::session_info()
+```

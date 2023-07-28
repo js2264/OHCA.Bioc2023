@@ -7,12 +7,149 @@
 #| warning: false
 source("_common.R")
 suppressPackageStartupMessages({
-    # library(dplyr)
-    # library(GenomicRanges)
-    # library(HiContactsData)
-    # library(HiContacts)
-    # library(fourDNData)
-    # library(HiCExperiment)
+    library(HiContactsData)
+    library(HiContacts)
+    library(HiCExperiment)
 })
 ```
 
+## Hi-C arithmetic
+
+### Normalizing a Hi-C map 
+
+```{r}
+library(HiContactsData)
+library(HiCExperiment)
+library(HiContacts)
+hicpro_matrix <- HiContactsData('yeast_wt', format = 'hicpro_matrix')
+hicpro_regions <- HiContactsData('yeast_wt', format = 'hicpro_bed')
+hicprof <- HicproFile(hicpro_matrix, bed = hicpro_regions)
+hicpro <- import(hicprof)["II"]
+plotMatrix(hicpro, use.scores = 'count')
+hicpro <- normalize(hicpro)
+cowplot::plot_grid(
+    plotMatrix(hicpro, use.scores = 'count'), 
+    plotMatrix(hicpro, use.scores = 'ICE')
+)
+```
+
+### Divide two Hi-C maps
+
+```{r}
+hic <- import(
+    CoolFile(HiContactsData('yeast_wt', 'mcool')), 
+    focus = 'II', 
+    resolution = 2000
+)
+hic_eco1 <- import(
+    CoolFile(HiContactsData('yeast_eco1', 'mcool')), 
+    focus = 'II', 
+    resolution = 2000
+)
+div_contacts <- divide(hic_eco1, by = hic) 
+
+cowplot::plot_grid(
+    plotMatrix(hic_eco1, compare.to = hic, limits = c(-4, -1)), 
+    plotMatrix(
+        div_contacts, 
+        use.scores = 'balanced.fc', 
+        scale = 'log2', 
+        limits = c(-1, 1),
+        cmap = bwrColors()
+    )
+)
+```
+
+### Detrend a Hi-C map 
+
+```{r}
+detrended_hic <- detrend(hic)
+detrended_hic
+cowplot::plot_grid(
+    plotMatrix(detrended_hic, use.scores = 'balanced', scale = 'log10', limits = c(-3.5, -1.2), caption = FALSE),
+    plotMatrix(detrended_hic, use.scores = 'expected', scale = 'log10', limits = c(-3.5, -1.2), caption = FALSE),
+    plotMatrix(detrended_hic, use.scores = 'detrended', scale = 'linear', limits = c(-1, 1), cmap = bwrColors(), caption = FALSE), 
+    nrow = 1
+)
+```
+
+### Autocorrelate a Hi-C map 
+
+```{r}
+autocorr_hic <- autocorrelate(hic)
+autocorr_hic
+cowplot::plot_grid(
+    plotMatrix(autocorr_hic, use.scores = 'balanced', scale = 'log10', limits = c(-3.5, -1.2), caption = FALSE),
+    plotMatrix(autocorr_hic, use.scores = 'autocorrelated', scale = 'linear', limits = c(-0.4, 0.4), cmap = bwrColors(), caption = FALSE), 
+    nrow = 1
+)
+
+```
+
+## Interactions analysis
+
+### P(s)
+
+```{r}
+pairsf <- HiContactsData('yeast_wt', 'pairs.gz')
+pairsFile(hic) <- pairsf
+eco1_pairsf <- HiContactsData('yeast_eco1', 'pairs.gz')
+hic_eco1 <- PairsFile(eco1_pairsf)
+```
+
+```{r}
+ps <- distanceLaw(hic, by_chr = TRUE) 
+ps_eco1 <- distanceLaw(hic_eco1, by_chr = TRUE) 
+ps
+ps_eco1
+library(dplyr)
+merged_ps <- rbind(
+    mutate(ps, sample = 'WT'), 
+    mutate(ps_eco1, sample = 'eco1')
+)
+library(ggplot2)
+plotPs(merged_ps, aes(x = binned_distance, y = norm_p, color = sample)) + 
+    scale_color_manual(values = c('#c6c6c6', '#ca0000'))
+plotPsSlope(merged_ps, aes(x = binned_distance, y = slope, color = sample)) + 
+    scale_color_manual(values = c('#c6c6c6', '#ca0000'))
+```
+
+### Cis-trans ratio
+
+```{r}
+full_hic <- import(
+    CoolFile(HiContactsData('yeast_wt', 'mcool')), 
+    resolution = 2000
+)
+cis_trans <- cisTransRatio(full_hic) 
+cis_trans
+```
+
+### Virtual 4C profiles
+
+```{r}
+library(GenomicRanges)
+v4C <- virtual4C(full_hic, viewpoint = GRanges("II:230001-240000"))
+v4C
+as_tibble(v4C) |> 
+    filter(seqnames == "III") |> 
+    ggplot(aes(x = center, y = score)) + 
+    geom_line() + 
+    labs(x = "chr. III", y = "Contacts with viewpoint @ II:230001-240000") +
+    scale_x_continuous(labels = scales::unit_format(unit = "M", scale = 1e-06))
+```
+
+## Read more
+
+Read the following sections from the OHCA book: 
+
+- [Matrix-centric analyses in Hi-C](https://jserizay.com/OHCA/matrix-centric.html)
+- [Interaction-centric analyses in Hi-C](https://jserizay.com/OHCA/interactions-centric.html)
+
+## Session info 
+
+```{r}
+#| echo: false
+#| eval: true
+sessioninfo::session_info()
+```

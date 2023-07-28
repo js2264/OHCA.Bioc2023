@@ -1,8 +1,3 @@
----
-execute: 
-    eval: false
----
-
 # Visualizing Hi-C data in R
 
 ```{r}
@@ -19,15 +14,6 @@ suppressPackageStartupMessages({
 })
 ```
 
-::: {.callout-tip icon='true'}
-## Docker image 
-All the packages used in this demo are available in the following `docker` image: 
-
-```{sh filename = 'sh'}
-docker run ghcr.io/js2264/ohca
-```
-:::
-
 ::: {.callout-tip collapse="true"}
 ## Generating the example `hic` object 👇
 
@@ -35,7 +21,7 @@ To demonstrate how to visualize a `HiCExperiment` contact matrix, we will create
 an `HiCExperiment` object from an example `.cool` file provided 
 in the `HiContactsData` package. 
 
-```{r eval = FALSE}
+```{r}
 library(HiCExperiment)
 library(HiContactsData)
 
@@ -59,14 +45,14 @@ hic
 
 ### Square matrices 
 
-```{r filename = 'R'}
+```{r}
 library(HiContacts)
 plotMatrix(hic)
 ```
 
 ### Side-by-side matrices
 
-```{r filename = 'R'}
+```{r}
 hic2 <- import(
     CoolFile(HiContactsData('yeast_eco1', 'mcool')), 
     focus = 'V', 
@@ -77,7 +63,7 @@ plotMatrix(hic, compare.to = hic2)
 
 ### Plotting multiple chromosomes
 
-```{r filename = 'R'}
+```{r}
 full_hic <- import(cf, resolution = 4000)
 hic_subset <- full_hic[c("III", "IV")]
 plotMatrix(hic_subset)
@@ -87,19 +73,19 @@ plotMatrix(hic_subset)
 
 ### Choosing scores
 
-```{r filename = 'R'}
+```{r}
 plotMatrix(hic, use.scores = 'count')
 ```
 
 ### Choosing scale
 
-```{r filename = 'R'}
+```{r}
 plotMatrix(hic, limits = c(-3.5, -1))
 ```
 
 ### Choosing color map
 
-```{r filename = 'R'}
+```{r}
 # ----- `afmhotr` color map is shipped in the `HiContacts` package
 afmhotrColors() 
 plotMatrix(
