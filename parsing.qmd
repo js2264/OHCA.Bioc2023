@@ -1,8 +1,3 @@
----
-execute: 
-    eval: false
----
-
 # Parsing Hi-C data in R
 
 ```{r}
@@ -25,6 +20,7 @@ suppressPackageStartupMessages({
 All the packages used in this demo are available in the following `docker` image: 
 
 ```{sh filename = 'sh'}
+#| eval: false
 docker run ghcr.io/js2264/ohca
 ```
 :::
@@ -38,7 +34,6 @@ A pair of `fastq` files can be parsed into `.pairs` and `.(m)cool` files with
 
 ```{r filename = 'R'}
 library(HiCool)
-?HiCool
 HiCool:::env_HiCool
 ```
 
@@ -50,6 +45,7 @@ HiCool:::env_HiCool
 this outside of `R` console, directly in the terminal, by running: 
 
 ```{sh filename = 'sh'}
+#| eval: false
 hicstuff pipeline \
    <hicstuff-options> \
    --genome <genome.fa> \
@@ -105,6 +101,7 @@ into `.pairs` and `.(m)cool` files, and returns a `CoolFile` object in `R`, alon
 with HTML reports.
 
 ```{r filename = 'R'}
+#| eval: false
 library(HiCool)
 library(HiContactsData)
 r1 <- HiContactsData(sample = 'yeast_wt', format = 'fastq_R1')
@@ -122,9 +119,9 @@ hcf <- HiCool(
 You can check the generated output files placed in the `HiCool/` directory. 
 
 ```{r}
-# hcf <- HiCool::importHiCoolFolder('HiCool', hash = 'SBDPJB')
+hcf <- HiCool::importHiCoolFolder('results/HiCool', hash = 'LHMXWE')
 hcf
-fs::dir_tree('HiCool/')
+fs::dir_tree('results/HiCool/')
 ```
 
 - The `*.pairs` and `*.mcool` files are the pairs and contact matrix files, respectively. **These are the output files the end-user is generally looking for.**

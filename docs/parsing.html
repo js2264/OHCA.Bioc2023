@@ -142,6 +142,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Visualizing Hi-C data in R</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./investigating.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Investigating Hi-C data in R</span></a>
+  </div>
+</li>
     </ul>
 </div>
 </nav><div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
@@ -187,7 +193,7 @@ Docker image
 </div>
 <div class="callout-body-container callout-body">
 <p>All the packages used in this demo are available in the following <code>docker</code> image:</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-2_094e26e55ad1a22fcf6e2b01dee3ea34">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-2_fb8b4a07e794afa0307530a7dc179715">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>sh</strong></pre>
@@ -201,14 +207,32 @@ Docker image
 <section id="runninng-hicool" class="level3"><h3 class="anchored" data-anchor-id="runninng-hicool">Runninng <code>HiCool</code>
 </h3>
 <p>A pair of <code>fastq</code> files can be parsed into <code>.pairs</code> and <code>.(m)cool</code> files with <code>HiCool</code>.</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-3_c3325955496e9f0808e9ba3a6cdec478">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-3_9cd187954de0e52a2e7eebe208c064f4">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>R</strong></pre>
 </div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiCool">HiCool</a></span><span class="op">)</span></span>
-<span><span class="op">?</span><span class="va">HiCool</span></span>
-<span><span class="fu">HiCool</span><span class="fu">:::</span><span class="va">env_HiCool</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu">HiCool</span><span class="fu">:::</span><span class="va">env_HiCool</span></span>
+<span><span class="co">##  An object of class "BasiliskEnvironment"</span></span>
+<span><span class="co">##  Slot "envname":</span></span>
+<span><span class="co">##  [1] "env"</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  Slot "pkgname":</span></span>
+<span><span class="co">##  [1] "HiCool"</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  Slot "packages":</span></span>
+<span><span class="co">##  [1] "python==3.8.10"     "bowtie2==2.5.0"     "samtools==1.16.1"  </span></span>
+<span><span class="co">##  [4] "chromosight==1.6.3" "cooler==0.9.1"     </span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  Slot "channels":</span></span>
+<span><span class="co">##  [1] "conda-forge" "bioconda"   </span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  Slot "pip":</span></span>
+<span><span class="co">##  [1] "hicstuff==3.1.5"</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  Slot "paths":</span></span>
+<span><span class="co">##  character(0)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -224,7 +248,7 @@ Docker image
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><code>HiCool</code> mostly operates as a wrapper to the lightweight python-based <a href="https://hicstuff.readthedocs.io/en/latest/"><code>hicstuff</code> library</a>. What <code>HiCool</code> really does is running <code>hicstuff pipeline</code>. You can replicate this outside of <code>R</code> console, directly in the terminal, by running:</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-4_db562e47f9625e0c76657215a306f479">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-4_4d7cc37f7ebd5619bfd3d697487ec6bf">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>sh</strong></pre>
@@ -282,7 +306,7 @@ Docker image
 </div>
 </div>
 <p>A call to <code><a href="https://rdrr.io/pkg/HiCool/man/HiCool.html">HiCool()</a></code> triggers <code>hicstuff</code> pipeline to process <code>fastq</code> files into <code>.pairs</code> and <code>.(m)cool</code> files, and returns a <code>CoolFile</code> object in <code>R</code>, along with HTML reports.</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-5_d36b74b6ed3c5d409847596e56a6027e">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-5_3e6be90b9e8bf8a6f39b34aed261a7a6">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>R</strong></pre>
@@ -302,10 +326,148 @@ Docker image
 </section><section id="hicool-outputs" class="level3"><h3 class="anchored" data-anchor-id="hicool-outputs">
 <code>HiCool</code> outputs</h3>
 <p>You can check the generated output files placed in the <code>HiCool/</code> directory.</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-6_7bab4ab23693f3e4adf542b52238406c">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># hcf &lt;- HiCool::importHiCoolFolder('HiCool', hash = 'SBDPJB')</span></span>
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-6_5e5a299895eed7ecc8cac69b971f72a4">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">hcf</span> <span class="op">&lt;-</span> <span class="fu">HiCool</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/HiCool/man/HiCool.html">importHiCoolFolder</a></span><span class="op">(</span><span class="st">'results/HiCool'</span>, hash <span class="op">=</span> <span class="st">'LHMXWE'</span><span class="op">)</span></span>
 <span><span class="va">hcf</span></span>
-<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html">dir_tree</a></span><span class="op">(</span><span class="st">'HiCool/'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  CoolFile object</span></span>
+<span><span class="co">##  .mcool file: results/HiCool/matrices/W303_G2M_wpl1-eco1^mapped-S288c^LHMXWE.mcool </span></span>
+<span><span class="co">##  resolution: 1000 </span></span>
+<span><span class="co">##  pairs file: results/HiCool/pairs/W303_G2M_wpl1-eco1^mapped-S288c^LHMXWE.pairs </span></span>
+<span><span class="co">##  metadata(3): log args stats</span></span>
+<span><span class="fu">fs</span><span class="fu">::</span><span class="fu"><a href="https://fs.r-lib.org/reference/dir_tree.html">dir_tree</a></span><span class="op">(</span><span class="st">'results/HiCool/'</span><span class="op">)</span></span>
+<span><span class="co">##  results/HiCool/</span></span>
+<span><span class="co">##  ├── W303_G1_WT_rep1^mapped-S288c^GK8ISZ.html</span></span>
+<span><span class="co">##  ├── W303_G1_WT_rep1^mapped-W303^D0CIL5.html</span></span>
+<span><span class="co">##  ├── W303_G1_WT_rep2^mapped-S288c^SWZTO0.html</span></span>
+<span><span class="co">##  ├── W303_G1_WT_rep2^mapped-W303^5PBKO1.html</span></span>
+<span><span class="co">##  ├── W303_G2M_WT_rep1^mapped-S288c^3KHHUE.html</span></span>
+<span><span class="co">##  ├── W303_G2M_WT_rep1^mapped-W303^64QFVP.html</span></span>
+<span><span class="co">##  ├── W303_G2M_WT_rep2^mapped-S288c^UVNG7M.html</span></span>
+<span><span class="co">##  ├── W303_G2M_WT_rep2^mapped-W303^X2H3FR.html</span></span>
+<span><span class="co">##  ├── W303_G2M_wpl1-eco1^mapped-S288c^LHMXWE.html</span></span>
+<span><span class="co">##  ├── W303_G2M_wpl1-eco1^mapped-W303^ESZ2C8.html</span></span>
+<span><span class="co">##  ├── W303_G2M_wpl1_rep1^mapped-S288c^Q4KX6Z.html</span></span>
+<span><span class="co">##  ├── W303_G2M_wpl1_rep1^mapped-W303^3445YH.html</span></span>
+<span><span class="co">##  ├── W303_G2M_wpl1_rep2^mapped-S288c^3N0L25.html</span></span>
+<span><span class="co">##  ├── W303_G2M_wpl1_rep2^mapped-W303^ET4BQ9.html</span></span>
+<span><span class="co">##  ├── logs</span></span>
+<span><span class="co">##  │   ├── CH02^mapped-S288c^KGQMIW.log</span></span>
+<span><span class="co">##  │   ├── CH210^mapped-S288c^6EPKN5.log</span></span>
+<span><span class="co">##  │   ├── SRR8769549_HiC-Seq_of_Saccharomyces_cerevisiae_W303_stopped_in_Metaphase_cdc20__1.fastq.gz^mapped-W303^PV86X8.log</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep1^mapped-S288c^GK8ISZ.log</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep1^mapped-W303^D0CIL5.log</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep1^mapped-W303^TGGJSN.log</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep2^mapped-S288c^SWZTO0.log</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep2^mapped-W303^1ED3LS.log</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep2^mapped-W303^5PBKO1.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep1^mapped-S288c^3KHHUE.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep1^mapped-W303^64QFVP.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep1^mapped-W303^TC4PU1.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep2^mapped-S288c^UVNG7M.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep2^mapped-W303^MYJIMC.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep2^mapped-W303^X2H3FR.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-S288c^ACRYQN.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-S288c^LHMXWE.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-W303^ESZ2C8.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-W303^YJHY6K.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep1^mapped-S288c^Q4KX6Z.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep1^mapped-W303^3445YH.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep1^mapped-W303^MAU2XZ.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep2^mapped-S288c^3N0L25.log</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep2^mapped-W303^ET4BQ9.log</span></span>
+<span><span class="co">##  │   └── W303_G2M_wpl1_rep2^mapped-W303^G72ANT.log</span></span>
+<span><span class="co">##  ├── matrices</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep1^mapped-S288c^GK8ISZ.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep1^mapped-W303^D0CIL5.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep2^mapped-S288c^SWZTO0.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep2^mapped-W303^5PBKO1.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep1^mapped-S288c^3KHHUE.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep1^mapped-W303^64QFVP.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep2^mapped-S288c^UVNG7M.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep2^mapped-W303^X2H3FR.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-S288c^LHMXWE.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-W303^ESZ2C8.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep1^mapped-S288c^Q4KX6Z.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep1^mapped-W303^3445YH.mcool</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep2^mapped-S288c^3N0L25.mcool</span></span>
+<span><span class="co">##  │   └── W303_G2M_wpl1_rep2^mapped-W303^ET4BQ9.mcool</span></span>
+<span><span class="co">##  ├── pairs</span></span>
+<span><span class="co">##  │   ├── CH02^mapped-S288c^KGQMIW.pairs</span></span>
+<span><span class="co">##  │   ├── CH210^mapped-S288c^6EPKN5.pairs</span></span>
+<span><span class="co">##  │   ├── SRR8769549_HiC-Seq_of_Saccharomyces_cerevisiae_W303_stopped_in_Metaphase_cdc20__1.fastq.gz^mapped-W303^PV86X8.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep1^mapped-S288c^GK8ISZ.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep1^mapped-W303^D0CIL5.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep1^mapped-W303^TGGJSN.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep2^mapped-S288c^SWZTO0.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep2^mapped-W303^1ED3LS.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G1_WT_rep2^mapped-W303^5PBKO1.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep1^mapped-S288c^3KHHUE.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep1^mapped-W303^64QFVP.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep1^mapped-W303^TC4PU1.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep2^mapped-S288c^UVNG7M.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep2^mapped-W303^MYJIMC.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_WT_rep2^mapped-W303^X2H3FR.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-S288c^ACRYQN.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-S288c^LHMXWE.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-W303^ESZ2C8.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1-eco1^mapped-W303^YJHY6K.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep1^mapped-S288c^Q4KX6Z.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep1^mapped-W303^3445YH.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep1^mapped-W303^MAU2XZ.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep2^mapped-S288c^3N0L25.pairs</span></span>
+<span><span class="co">##  │   ├── W303_G2M_wpl1_rep2^mapped-W303^ET4BQ9.pairs</span></span>
+<span><span class="co">##  │   └── W303_G2M_wpl1_rep2^mapped-W303^G72ANT.pairs</span></span>
+<span><span class="co">##  └── plots</span></span>
+<span><span class="co">##      ├── CH02^mapped-S288c^KGQMIW_event_distance.pdf</span></span>
+<span><span class="co">##      ├── CH02^mapped-S288c^KGQMIW_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── CH210^mapped-S288c^6EPKN5_event_distance.pdf</span></span>
+<span><span class="co">##      ├── CH210^mapped-S288c^6EPKN5_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── SRR8769549_HiC-Seq_of_Saccharomyces_cerevisiae_W303_stopped_in_Metaphase_cdc20__1.fastq.gz^mapped-W303^PV86X8_event_distance.pdf</span></span>
+<span><span class="co">##      ├── SRR8769549_HiC-Seq_of_Saccharomyces_cerevisiae_W303_stopped_in_Metaphase_cdc20__1.fastq.gz^mapped-W303^PV86X8_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep1^mapped-S288c^GK8ISZ_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep1^mapped-S288c^GK8ISZ_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep1^mapped-W303^D0CIL5_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep1^mapped-W303^D0CIL5_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep1^mapped-W303^TGGJSN_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep1^mapped-W303^TGGJSN_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep2^mapped-S288c^SWZTO0_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep2^mapped-S288c^SWZTO0_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep2^mapped-W303^1ED3LS_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep2^mapped-W303^1ED3LS_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep2^mapped-W303^5PBKO1_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G1_WT_rep2^mapped-W303^5PBKO1_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep1^mapped-S288c^3KHHUE_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep1^mapped-S288c^3KHHUE_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep1^mapped-W303^64QFVP_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep1^mapped-W303^64QFVP_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep1^mapped-W303^TC4PU1_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep1^mapped-W303^TC4PU1_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep2^mapped-S288c^UVNG7M_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep2^mapped-S288c^UVNG7M_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep2^mapped-W303^MYJIMC_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep2^mapped-W303^MYJIMC_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep2^mapped-W303^X2H3FR_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_WT_rep2^mapped-W303^X2H3FR_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1-eco1^mapped-S288c^ACRYQN_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1-eco1^mapped-S288c^ACRYQN_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1-eco1^mapped-S288c^LHMXWE_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1-eco1^mapped-S288c^LHMXWE_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1-eco1^mapped-W303^ESZ2C8_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1-eco1^mapped-W303^ESZ2C8_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1-eco1^mapped-W303^YJHY6K_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1-eco1^mapped-W303^YJHY6K_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep1^mapped-S288c^Q4KX6Z_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep1^mapped-S288c^Q4KX6Z_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep1^mapped-W303^3445YH_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep1^mapped-W303^3445YH_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep1^mapped-W303^MAU2XZ_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep1^mapped-W303^MAU2XZ_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep2^mapped-S288c^3N0L25_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep2^mapped-S288c^3N0L25_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep2^mapped-W303^ET4BQ9_event_distance.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep2^mapped-W303^ET4BQ9_event_distribution.pdf</span></span>
+<span><span class="co">##      ├── W303_G2M_wpl1_rep2^mapped-W303^G72ANT_event_distance.pdf</span></span>
+<span><span class="co">##      └── W303_G2M_wpl1_rep2^mapped-W303^G72ANT_event_distribution.pdf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>The <code>*.pairs</code> and <code>*.mcool</code> files are the pairs and contact matrix files, respectively. <strong>These are the output files the end-user is generally looking for.</strong>
@@ -315,54 +477,144 @@ Docker image
 <li>The <code>*.pdf</code> graphic files provide a visual representation of the distribution of informative/non-informative pairs.</li>
 </ul></section><section id="coolfile" class="level3"><h3 class="anchored" data-anchor-id="coolfile"><code>CoolFile</code></h3>
 <p>A pointer to a local <code>.(m)cool</code> file (or <code>.hic</code>, HiC-Pro-style or <code>.pairs</code> file) can also be manually created:</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-7_b2cb1d1279567bd00635c10fa4eabd46">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-7_abfc8f8aa886fdfca27598eceb56a9cd">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>R</strong></pre>
 </div>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiCExperiment">HiCExperiment</a></span><span class="op">)</span></span>
 <span><span class="va">mcool</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiContactsData/man/HiContactsData.html">HiContactsData</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="st">'yeast_wt'</span>, format <span class="op">=</span> <span class="st">'mcool'</span><span class="op">)</span></span>
+<span><span class="co">##  see ?HiContactsData and browseVignettes('HiContactsData') for documentation</span></span>
+<span><span class="co">##  loading from cache</span></span>
 <span><span class="va">mcool</span></span>
+<span><span class="co">##                                               EH7702 </span></span>
+<span><span class="co">##  "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">availableResolutions</a></span><span class="op">(</span><span class="va">mcool</span><span class="op">)</span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  </span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">availableChromosomes</a></span><span class="op">(</span><span class="va">mcool</span><span class="op">)</span></span>
+<span><span class="co">##  Seqinfo object with 16 sequences from an unspecified genome:</span></span>
+<span><span class="co">##    seqnames seqlengths isCircular genome</span></span>
+<span><span class="co">##    I            230218       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    II           813184       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    III          316620       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    IV          1531933       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    V            576874       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    ...             ...        ...    ...</span></span>
+<span><span class="co">##    XII         1078177       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    XIII         924431       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    XIV          784333       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    XV          1091291       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    XVI          948066       &lt;NA&gt;   &lt;NA&gt;</span></span>
 <span><span class="va">cf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/CoolFile-class.html">CoolFile</a></span><span class="op">(</span><span class="va">mcool</span><span class="op">)</span></span>
-<span><span class="va">cf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="va">cf</span></span>
+<span><span class="co">##  CoolFile object</span></span>
+<span><span class="co">##  .mcool file: /home/rsg/.cache/R/ExperimentHub/36d590c5583_7752 </span></span>
+<span><span class="co">##  resolution: 1000 </span></span>
+<span><span class="co">##  pairs file: </span></span>
+<span><span class="co">##  metadata(0):</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section></section><section id="importing-hi-c-contact-maps-in-r" class="level2"><h2 class="anchored" data-anchor-id="importing-hi-c-contact-maps-in-r">Importing Hi-C contact maps in R</h2>
 <section id="importing-and-subsetting" class="level3"><h3 class="anchored" data-anchor-id="importing-and-subsetting">Importing and subsetting</h3>
 <p>A full contact map can be imported in <code>R</code> with <code>import</code>.</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-8_24b9b63b0ebe5a948b11ef2bca21fe21">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-8_7bc577742e61c6eb7edd830237c89902">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span>
+<span><span class="co">##  `HiCExperiment` object with 8,757,906 contacts over 12,079 regions </span></span>
+<span><span class="co">##  -------</span></span>
+<span><span class="co">##  fileName: "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752" </span></span>
+<span><span class="co">##  focus: "whole genome" </span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  active resolution: 1000 </span></span>
+<span><span class="co">##  interactions: 2945692 </span></span>
+<span><span class="co">##  scores(2): count balanced </span></span>
+<span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
+<span><span class="co">##  pairsFile: N/A </span></span>
+<span><span class="co">##  metadata(0):</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>A specific resollution can be specified with the <code>resolution</code>:</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-9_479026f0efbb140bf1070c67dc187446">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-9_7b88fa7e9d03ce1423831524d329052d">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>R</strong></pre>
 </div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, resolution <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, resolution <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span>
+<span><span class="co">##  `HiCExperiment` object with 8,757,906 contacts over 6,045 regions </span></span>
+<span><span class="co">##  -------</span></span>
+<span><span class="co">##  fileName: "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752" </span></span>
+<span><span class="co">##  focus: "whole genome" </span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  active resolution: 2000 </span></span>
+<span><span class="co">##  interactions: 2198094 </span></span>
+<span><span class="co">##  scores(2): count balanced </span></span>
+<span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
+<span><span class="co">##  pairsFile: N/A </span></span>
+<span><span class="co">##  metadata(0):</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>A subset of the contact map can be imported in <code>R</code> by specifying a <code>focus</code> as a string:</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-10_be4d2e00939c2a4c0ec31e694c93907d">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-10_a5420d7ed746fbf320124aea1a802276">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>R</strong></pre>
 </div>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, focus <span class="op">=</span> <span class="st">'I'</span><span class="op">)</span></span>
+<span><span class="co">##  `HiCExperiment` object with 93,163 contacts over 231 regions </span></span>
+<span><span class="co">##  -------</span></span>
+<span><span class="co">##  fileName: "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752" </span></span>
+<span><span class="co">##  focus: "I" </span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  active resolution: 1000 </span></span>
+<span><span class="co">##  interactions: 11535 </span></span>
+<span><span class="co">##  scores(2): count balanced </span></span>
+<span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
+<span><span class="co">##  pairsFile: N/A </span></span>
+<span><span class="co">##  metadata(0):</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, focus <span class="op">=</span> <span class="st">'I:1-40000'</span><span class="op">)</span></span>
+<span><span class="co">##  `HiCExperiment` object with 9,803 contacts over 40 regions </span></span>
+<span><span class="co">##  -------</span></span>
+<span><span class="co">##  fileName: "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752" </span></span>
+<span><span class="co">##  focus: "I:1-40,000" </span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  active resolution: 1000 </span></span>
+<span><span class="co">##  interactions: 703 </span></span>
+<span><span class="co">##  scores(2): count balanced </span></span>
+<span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
+<span><span class="co">##  pairsFile: N/A </span></span>
+<span><span class="co">##  metadata(0):</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, focus <span class="op">=</span> <span class="st">'I|II'</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, focus <span class="op">=</span> <span class="st">'I:1-40000|II:2001-40000'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  `HiCExperiment` object with 6,626 contacts over 1,045 regions </span></span>
+<span><span class="co">##  -------</span></span>
+<span><span class="co">##  fileName: "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752" </span></span>
+<span><span class="co">##  focus: "I|II" </span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  active resolution: 1000 </span></span>
+<span><span class="co">##  interactions: 6008 </span></span>
+<span><span class="co">##  scores(2): count balanced </span></span>
+<span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
+<span><span class="co">##  pairsFile: N/A </span></span>
+<span><span class="co">##  metadata(0):</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span>, focus <span class="op">=</span> <span class="st">'I:1-40000|II:2001-40000'</span><span class="op">)</span></span>
+<span><span class="co">##  `HiCExperiment` object with 68 contacts over 78 regions </span></span>
+<span><span class="co">##  -------</span></span>
+<span><span class="co">##  fileName: "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752" </span></span>
+<span><span class="co">##  focus: "I:1-40000|II:2001-40000" </span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  active resolution: 1000 </span></span>
+<span><span class="co">##  interactions: 62 </span></span>
+<span><span class="co">##  scores(2): count balanced </span></span>
+<span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
+<span><span class="co">##  pairsFile: N/A </span></span>
+<span><span class="co">##  metadata(0):</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <p>Subsetting can also be performed once the matrix has been loaded in memory:</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-11_d89fc120291d081fd0342d019a71badc">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-11_755012383b0c15215a53b826c2e354a6">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>R</strong></pre>
@@ -370,33 +622,134 @@ Docker image
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/GenomicRanges">GenomicRanges</a></span><span class="op">)</span></span>
 <span><span class="va">hic</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocIO/man/IO.html">import</a></span><span class="op">(</span><span class="va">cf</span><span class="op">)</span></span>
 <span><span class="va">hic</span></span>
+<span><span class="co">##  `HiCExperiment` object with 8,757,906 contacts over 12,079 regions </span></span>
+<span><span class="co">##  -------</span></span>
+<span><span class="co">##  fileName: "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752" </span></span>
+<span><span class="co">##  focus: "whole genome" </span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  active resolution: 1000 </span></span>
+<span><span class="co">##  interactions: 2945692 </span></span>
+<span><span class="co">##  scores(2): count balanced </span></span>
+<span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
+<span><span class="co">##  pairsFile: N/A </span></span>
+<span><span class="co">##  metadata(0):</span></span>
 <span><span class="va">hic</span><span class="op">[</span><span class="st">"I:1-40000"</span><span class="op">]</span></span>
+<span><span class="co">##  `HiCExperiment` object with 9,803 contacts over 38 regions </span></span>
+<span><span class="co">##  -------</span></span>
+<span><span class="co">##  fileName: "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752" </span></span>
+<span><span class="co">##  focus: "I:1-40,000" </span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  active resolution: 1000 </span></span>
+<span><span class="co">##  interactions: 703 </span></span>
+<span><span class="co">##  scores(2): count balanced </span></span>
+<span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
+<span><span class="co">##  pairsFile: N/A </span></span>
+<span><span class="co">##  metadata(0):</span></span>
 <span><span class="co">## or ...</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html">subsetByOverlaps</a></span><span class="op">(</span><span class="va">hic</span>, <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span><span class="st">"I:1-40000"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/IRanges/man/findOverlaps-methods.html">subsetByOverlaps</a></span><span class="op">(</span><span class="va">hic</span>, <span class="fu"><a href="https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html">GRanges</a></span><span class="op">(</span><span class="st">"I:1-40000"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##  `HiCExperiment` object with 9,803 contacts over 38 regions </span></span>
+<span><span class="co">##  -------</span></span>
+<span><span class="co">##  fileName: "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752" </span></span>
+<span><span class="co">##  focus: "whole genome" </span></span>
+<span><span class="co">##  resolutions(5): 1000 2000 4000 8000 16000</span></span>
+<span><span class="co">##  active resolution: 1000 </span></span>
+<span><span class="co">##  interactions: 703 </span></span>
+<span><span class="co">##  scores(2): count balanced </span></span>
+<span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
+<span><span class="co">##  pairsFile: N/A </span></span>
+<span><span class="co">##  metadata(0):</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section><section id="slots" class="level3"><h3 class="anchored" data-anchor-id="slots">Slots</h3>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-12_d3fec87e9c817fb6da5e17126153db92">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-12_96a221d54eb5e2605c0d8fb1f22abada">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>R</strong></pre>
 </div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/methods/RClassUtils.html">showClass</a></span><span class="op">(</span><span class="st">"HiCExperiment"</span><span class="op">)</span></span>
+<span><span class="co">##  Class "HiCExperiment" [package "HiCExperiment"]</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  Slots:</span></span>
+<span><span class="co">##                                                                    </span></span>
+<span><span class="co">##  Name:             fileName               focus         resolutions</span></span>
+<span><span class="co">##  Class:           character     characterOrNULL             numeric</span></span>
+<span><span class="co">##                                                                    </span></span>
+<span><span class="co">##  Name:           resolution        interactions              scores</span></span>
+<span><span class="co">##  Class:             numeric       GInteractions          SimpleList</span></span>
+<span><span class="co">##                                                                    </span></span>
+<span><span class="co">##  Name:  topologicalFeatures           pairsFile            metadata</span></span>
+<span><span class="co">##  Class:          SimpleList     characterOrNULL                list</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  Extends: "Annotated"</span></span>
+<span><span class="co">##  </span></span>
+<span><span class="co">##  Known Subclasses: "AggrHiCExperiment"</span></span>
 <span></span>
 <span><span class="co">## -- Extract informations</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/fileName.html">fileName</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span> </span>
+<span><span class="co">##  [1] "/home/rsg/.cache/R/ExperimentHub/36d590c5583_7752"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">resolutions</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span> </span>
+<span><span class="co">##  [1]  1000  2000  4000  8000 16000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">resolution</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span> </span>
+<span><span class="co">##  [1] 1000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/GenomeInfoDb/man/seqinfo.html">seqinfo</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span> </span>
+<span><span class="co">##  Seqinfo object with 16 sequences from an unspecified genome:</span></span>
+<span><span class="co">##    seqnames seqlengths isCircular genome</span></span>
+<span><span class="co">##    I            230218       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    II           813184       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    III          316620       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    IV          1531933       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    V            576874       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    ...             ...        ...    ...</span></span>
+<span><span class="co">##    XII         1078177       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    XIII         924431       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    XIV          784333       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    XV          1091291       &lt;NA&gt;   &lt;NA&gt;</span></span>
+<span><span class="co">##    XVI          948066       &lt;NA&gt;   &lt;NA&gt;</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/Annotated-class.html">metadata</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span>
+<span><span class="co">##  list()</span></span>
 <span></span>
 <span><span class="co">## -- Extract data</span></span>
 <span><span class="fu">interactions</span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span>
+<span><span class="co">##  GInteractions object with 2945692 interactions and 4 metadata columns:</span></span>
+<span><span class="co">##              seqnames1       ranges1     seqnames2       ranges2 |   bin_id1</span></span>
+<span><span class="co">##                  &lt;Rle&gt;     &lt;IRanges&gt;         &lt;Rle&gt;     &lt;IRanges&gt; | &lt;numeric&gt;</span></span>
+<span><span class="co">##          [1]         I        1-1000 ---         I        1-1000 |         0</span></span>
+<span><span class="co">##          [2]         I        1-1000 ---         I     1001-2000 |         0</span></span>
+<span><span class="co">##          [3]         I        1-1000 ---         I     2001-3000 |         0</span></span>
+<span><span class="co">##          [4]         I        1-1000 ---         I     3001-4000 |         0</span></span>
+<span><span class="co">##          [5]         I        1-1000 ---         I     4001-5000 |         0</span></span>
+<span><span class="co">##          ...       ...           ... ...       ...           ... .       ...</span></span>
+<span><span class="co">##    [2945688]       XVI 940001-941000 ---       XVI 942001-943000 |     12070</span></span>
+<span><span class="co">##    [2945689]       XVI 940001-941000 ---       XVI 943001-944000 |     12070</span></span>
+<span><span class="co">##    [2945690]       XVI 941001-942000 ---       XVI 941001-942000 |     12071</span></span>
+<span><span class="co">##    [2945691]       XVI 941001-942000 ---       XVI 942001-943000 |     12071</span></span>
+<span><span class="co">##    [2945692]       XVI 941001-942000 ---       XVI 943001-944000 |     12071</span></span>
+<span><span class="co">##                bin_id2     count  balanced</span></span>
+<span><span class="co">##              &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;</span></span>
+<span><span class="co">##          [1]         0        15 0.0663491</span></span>
+<span><span class="co">##          [2]         1        21 0.1273505</span></span>
+<span><span class="co">##          [3]         2        21 0.0738691</span></span>
+<span><span class="co">##          [4]         3        38 0.0827051</span></span>
+<span><span class="co">##          [5]         4        17 0.0591984</span></span>
+<span><span class="co">##          ...       ...       ...       ...</span></span>
+<span><span class="co">##    [2945688]     12072        11 0.0575550</span></span>
+<span><span class="co">##    [2945689]     12073         1       NaN</span></span>
+<span><span class="co">##    [2945690]     12071        74 0.0504615</span></span>
+<span><span class="co">##    [2945691]     12072        39 0.1624599</span></span>
+<span><span class="co">##    [2945692]     12073         1       NaN</span></span>
+<span><span class="co">##    -------</span></span>
+<span><span class="co">##    regions: 12079 ranges and 4 metadata columns</span></span>
+<span><span class="co">##    seqinfo: 16 sequences from an unspecified genome</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">scores</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span>
+<span><span class="co">##  List of length 2</span></span>
+<span><span class="co">##  names(2): count balanced</span></span>
 <span></span>
 <span><span class="co">## -- Extract extra data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">topologicalFeatures</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">pairsFile</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co">##  List of length 4</span></span>
+<span><span class="co">##  names(4): compartments borders loops viewpoints</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/AllGenerics.html">pairsFile</a></span><span class="op">(</span><span class="va">hic</span><span class="op">)</span></span>
+<span><span class="co">##  NULL</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section></section><section id="read-more" class="level2"><h2 class="anchored" data-anchor-id="read-more">Read more</h2>

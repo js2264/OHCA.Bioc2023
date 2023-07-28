@@ -1,4 +1,4 @@
-# Interoperability with other Hi-C packages in R
+# Interoperability of HiCExperiment
 
 ```{r}
 #| echo: false
@@ -23,6 +23,113 @@ hic <- import(
 )
 ```
 
+### Into `GInteractions` 
+
+```{r}
+as(hic, "GInteractions")
+```
+
+### Into `data.frame` 
+
+```{r}
+as(hic, "data.frame") |> head()
+```
+
+### Into (sparse) `matrix` 
+
+```{r}
+as.matrix(hic)[1:10, 1:10]
+as.matrix(hic, sparse = FALSE)[1:10, 1:10]
+as.matrix(hic, use.scores = 'count', sparse = FALSE)[1:10, 1:10]
+```
+
+## Using `HiCExperiment` in other packages
+
+### Importing two replicates of WT and *wpl1*
+
+```{r}
+library(HiCool)
+cfs <- list(
+    WT_G2M_rep1 = importHiCoolFolder('results/HiCool', '3KHHUE'), 
+    WT_G2M_rep2 = importHiCoolFolder('results/HiCool', 'UVNG7M'), 
+    wpl1_G2M_rep1 = importHiCoolFolder('results/HiCool', 'Q4KX6Z'), 
+    wpl1_G2M_rep2 = importHiCoolFolder('results/HiCool', '3N0L25')
+)
+cfs
+library(purrr)
+library(HiCExperiment)
+hics <- map(cfs, import, resolution = 2000)
+hics
+library(HiContacts)
+merged_replicates <- list(
+    WT_G2M = merge(hics[[1]][ 'XI'], hics[[2]][ 'XI']), 
+    wpl1_G2M = merge(hics[[3]][ 'XI'], hics[[4]][ 'XI'])
+)
+library(ggplot2)
+maps <- imap(merged_replicates, ~ plotMatrix(
+    .x, use.scores = 'balanced', limits = c(-3.5, -1.5), caption = FALSE
+) + ggtitle(.y))
+cowplot::plot_grid(plotlist = maps, nrow = 1)
+```
+
+### Transform `HiCExperiment` into multiHiCcompare-compatible objects
+
+```{r}
+library(multiHiCcompare)
+library(dplyr)
+hics_list <- map(hics, ~ .x['XI'] |> 
+    as("data.frame") |>
+    select(start1, start2, count) |> 
+    mutate(chr = 11) |>
+    relocate(chr) 
+)
+mhicc <- make_hicexp(
+    data_list = hics_list, 
+    groups = factor(c(1, 1, 2, 2)
+), A.min = 1)
+mhicc
+```
+
+```{r}
+mhicc <- cyclic_loess(mhicc, span = 0.2) |> hic_exactTest()
+mhicc
+```
+
+```{r}
+df <- results(mhicc) |> 
+    as_tibble() |> 
+    mutate(group = case_when(
+        region1 < 430000 & region2 > 450000 ~ 'Inter arms',
+        region1 >= 430000 & region2 <= 450000 ~ 'At centro',
+        .default = 'Intra arms'
+    )) |> 
+    mutate(sign = p.value <= 0.05 & abs(logFC) >= 1)
+df
+ggplot(df, aes(x = logFC, y = -log10(p.value), col = sign)) + 
+    geom_point(size = 0.2) + 
+    theme_bw() + 
+    facet_wrap(~group) + 
+    ylim(c(0, 6)) + 
+    theme(legend.position = 'none') + 
+    scale_color_manual(values = c('grey', 'black'))
+```
+
+```{r}
+gis <- rename(df, seqnames1 = chr, start1 = region1, start2 = region2) |> 
+    mutate(
+        seqnames2 = seqnames1, 
+        end1 = start1 + 1999, 
+        end2 = start2 + 1999
+    ) |> 
+    filter(abs(logFC) >= 1) |>
+    df2gi() 
+cowplot::plot_grid(
+    plotMatrix(merged_replicates[['WT_G2M']], use.scores = 'balanced', limits = c(-3.5, -1), caption = FALSE),
+    plotMatrix(merged_replicates[['wpl1_G2M']], use.scores = 'balanced', limits = c(-3.5, -1), caption = FALSE),
+    plotMatrix(gis, use.scores = 'logFC', scale = 'linear', limits = c(-2, 2), cmap = bgrColors()), 
+    align = "hv", axis = 'tblr', nrow = 1
+)
+```
 
 ## Read more
 
