@@ -23,7 +23,7 @@ website:
       - parsing.qmd
       - visualizing.qmd
       - investigating.qmd
-      # - interoperability.qmd
+      - interoperability.qmd
 
 format:
   html:
