@@ -34,10 +34,14 @@ read [OHCA book first chapter](https://jserizay.com/OHCA/principles.html).
 
 ## Docker image
 
-To quickly use the package Docker image:
+To quickly go ahead with Hi-C analysis, we recommend to use the `OHCA`
+Docker image as follows:
 
 ```sh
-docker run -e PASSWORD=<choose_a_password_for_rstudio> -p 8787:8787 ghcr.io/js2264/ohca
+#| eval: false
+docker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca
 ```
-Once running, navigate to http://localhost:8787/ and then login with `rstudio`:`yourchosenpassword`. 
+
+Once running, navigate to https://localhost:8787/ 
+and then login with `rstudio`:`OHCA`. 
 

@@ -21,7 +21,7 @@ All the packages used in this demo are available in the following `docker` image
 
 ```{sh filename = 'sh'}
 #| eval: false
-docker run ghcr.io/js2264/ohca
+docker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca /bin/bash
 ```
 :::
 
