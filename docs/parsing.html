@@ -199,14 +199,15 @@ Docker image
 </div>
 <div class="callout-body-container callout-body">
 <p>All the packages used in this demo are available in the following <code>docker</code> image:</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-2_4414939c9b06f135615f72cee5e68a2d">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-2_9a1784a789fda96d861cf1e888be7cf9">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>sh</strong></pre>
 </div>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">-e</span> PASSWORD=OHCA <span class="at">-p</span> 8787:8787 ghcr.io/js2264/ohca /bin/bash</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">-e</span> PASSWORD=OHCA <span class="at">-p</span> 8787:8787 ghcr.io/js2264/ohca:bioc_RELEASE_3_17 R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
+<p>Note that this also opens up an <code>RStudio</code> instance available at <code>https://localhost:8787/</code>.</p>
 </div>
 </div>
 <section id="processing-hi-c-paired-end-reads-in-r" class="level2"><h2 class="anchored" data-anchor-id="processing-hi-c-paired-end-reads-in-r">Processing Hi-C paired-end reads in R</h2>
@@ -312,13 +313,12 @@ Docker image
 </div>
 </div>
 <p>A call to <code><a href="https://rdrr.io/pkg/HiCool/man/HiCool.html">HiCool()</a></code> triggers <code>hicstuff</code> pipeline to process <code>fastq</code> files into <code>.pairs</code> and <code>.(m)cool</code> files, and returns a <code>CoolFile</code> object in <code>R</code>, along with HTML reports.</p>
-<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-5_3e6be90b9e8bf8a6f39b34aed261a7a6">
+<div class="cell" data-layout-align="center" data-hash="parsing_cache/html/unnamed-chunk-5_41610b401ff193c4a52466c7406e5d8d">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>R</strong></pre>
 </div>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiCool">HiCool</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiContactsData">HiContactsData</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiContactsData">HiContactsData</a></span><span class="op">)</span></span>
 <span><span class="va">r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiContactsData/man/HiContactsData.html">HiContactsData</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="st">'yeast_wt'</span>, format <span class="op">=</span> <span class="st">'fastq_R1'</span><span class="op">)</span></span>
 <span><span class="va">r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiContactsData/man/HiContactsData.html">HiContactsData</a></span><span class="op">(</span>sample <span class="op">=</span> <span class="st">'yeast_wt'</span>, format <span class="op">=</span> <span class="st">'fastq_R2'</span><span class="op">)</span></span>
 <span><span class="va">hcf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/HiCool/man/HiCool.html">HiCool</a></span><span class="op">(</span></span>

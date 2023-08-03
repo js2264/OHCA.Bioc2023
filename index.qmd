@@ -43,7 +43,7 @@ read [OHCA book first chapter](https://jserizay.com/OHCA/principles.html).
 To quickly use the package Docker image:
 
 ```sh
-docker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca
+docker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca:bioc_RELEASE_3_17
 ```
 Once running, navigate to http://localhost:8787/ and then login 
 with `rstudio`:`OHCA`. 

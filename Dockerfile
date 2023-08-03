@@ -1,4 +1,4 @@
-FROM ghcr.io/js2264/ohca:latest
+FROM ghcr.io/js2264/ohca:bioc_RELEASE_3_17
 
 WORKDIR /home/rstudio
 

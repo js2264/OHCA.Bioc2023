@@ -318,7 +318,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section></section><section id="using-hicexperiment-in-other-packages" class="level2"><h2 class="anchored" data-anchor-id="using-hicexperiment-in-other-packages">Using <code>HiCExperiment</code> in other packages</h2>
 <section id="importing-two-replicates-of-wt-and-wpl1" class="level3"><h3 class="anchored" data-anchor-id="importing-two-replicates-of-wt-and-wpl1">Importing two replicates of WT and <em>wpl1</em>
 </h3>
-<div class="cell" data-layout-align="center" data-hash="interoperability_cache/html/unnamed-chunk-6_212791fb98fea3e19e29444c4de803b4">
+<div class="cell" data-layout-align="center" data-hash="interoperability_cache/html/unnamed-chunk-6_16d3941e92f4c35a462d8a8fe484f3ca">
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiCool">HiCool</a></span><span class="op">)</span></span>
 <span><span class="va">cfs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
 <span>    WT_G2M_rep1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/HiCool/man/HiCool.html">importHiCoolFolder</a></span><span class="op">(</span><span class="st">'results/HiCool'</span>, <span class="st">'3KHHUE'</span><span class="op">)</span>, </span>
@@ -408,50 +408,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">##  scores(2): count balanced </span></span>
 <span><span class="co">##  topologicalFeatures: compartments(0) borders(0) loops(0) viewpoints(0) </span></span>
 <span><span class="co">##  pairsFile: results/HiCool/pairs/W303_G2M_wpl1_rep2^mapped-S288c^3N0L25.pairs </span></span>
-<span><span class="co">##  metadata(3): log args stats</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiContacts">HiContacts</a></span><span class="op">)</span></span>
-<span><span class="va">merged_replicates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
-<span>    WT_G2M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">hics</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span> <span class="st">'XI'</span><span class="op">]</span>, <span class="va">hics</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">[</span> <span class="st">'XI'</span><span class="op">]</span><span class="op">)</span>, </span>
-<span>    wpl1_G2M <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">hics</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">[</span> <span class="st">'XI'</span><span class="op">]</span>, <span class="va">hics</span><span class="op">[[</span><span class="fl">4</span><span class="op">]</span><span class="op">]</span><span class="op">[</span> <span class="st">'XI'</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
-<span><span class="va">maps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/imap.html">imap</a></span><span class="op">(</span><span class="va">merged_replicates</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/HiContacts/man/plotMatrix.html">plotMatrix</a></span><span class="op">(</span></span>
-<span>    <span class="va">.x</span>, use.scores <span class="op">=</span> <span class="st">'balanced'</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3.5</span>, <span class="op">-</span><span class="fl">1.5</span><span class="op">)</span>, caption <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="va">.y</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">maps</span>, nrow <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure"><p><img src="interoperability_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
+<span><span class="co">##  metadata(3): log args stats</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section><section id="transform-hicexperiment-into-multihiccompare-compatible-objects" class="level3"><h3 class="anchored" data-anchor-id="transform-hicexperiment-into-multihiccompare-compatible-objects">Transform <code>HiCExperiment</code> into multiHiCcompare-compatible objects</h3>
-<div class="cell" data-layout-align="center" data-hash="interoperability_cache/html/unnamed-chunk-7_a54a07870fee02314407c97113082427">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dozmorovlab/multiHiCcompare">multiHiCcompare</a></span><span class="op">)</span></span>
-<span><span class="co">##  </span></span>
-<span><span class="co">##  Attaching package: 'multiHiCcompare'</span></span>
-<span><span class="co">##  The following object is masked from 'package:ggplot2':</span></span>
-<span><span class="co">##  </span></span>
-<span><span class="co">##      resolution</span></span>
-<span><span class="co">##  The following object is masked from 'package:HiCExperiment':</span></span>
-<span><span class="co">##  </span></span>
-<span><span class="co">##      resolution</span></span>
+<div class="cell" data-layout-align="center" data-hash="interoperability_cache/html/unnamed-chunk-7_c15d1262066bf04e8dcf0fe14760b956">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/js2264/HiContacts">HiContacts</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/dozmorovlab/multiHiCcompare">multiHiCcompare</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">##  </span></span>
-<span><span class="co">##  Attaching package: 'dplyr'</span></span>
-<span><span class="co">##  The following objects are masked from 'package:dbplyr':</span></span>
-<span><span class="co">##  </span></span>
-<span><span class="co">##      ident, sql</span></span>
-<span><span class="co">##  The following objects are masked from 'package:BiocGenerics':</span></span>
-<span><span class="co">##  </span></span>
-<span><span class="co">##      combine, intersect, setdiff, union</span></span>
-<span><span class="co">##  The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">##  </span></span>
-<span><span class="co">##      filter, lag</span></span>
-<span><span class="co">##  The following objects are masked from 'package:base':</span></span>
-<span><span class="co">##  </span></span>
-<span><span class="co">##      intersect, setdiff, setequal, union</span></span>
 <span><span class="va">hics_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span><span class="op">(</span><span class="va">hics</span>, <span class="op">~</span> <span class="va">.x</span><span class="op">[</span><span class="st">'XI'</span><span class="op">]</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/methods/as.html">as</a></span><span class="op">(</span><span class="st">"data.frame"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">start1</span>, <span class="va">start2</span>, <span class="va">count</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
@@ -477,33 +440,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">##  Group 2 has 2 samples </span></span>
 <span><span class="co">##  Data has been normalized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-layout-align="center" data-hash="interoperability_cache/html/unnamed-chunk-9_63d1cbfdd97e00c25c2cb6f882488edc">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/multiHiCcompare/man/results.html">results</a></span><span class="op">(</span><span class="va">mhicc</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<div class="cell" data-layout-align="center" data-hash="interoperability_cache/html/unnamed-chunk-9_f6e6bd05c6c9475a00d9b773996680a1">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/multiHiCcompare/man/results.html">results</a></span><span class="op">(</span><span class="va">mhicc</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> </span>
+<span><span class="va">df</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
 <span>        <span class="va">region1</span> <span class="op">&lt;</span> <span class="fl">430000</span> <span class="op">&amp;</span> <span class="va">region2</span> <span class="op">&gt;</span> <span class="fl">450000</span> <span class="op">~</span> <span class="st">'Inter arms'</span>,</span>
 <span>        <span class="va">region1</span> <span class="op">&gt;=</span> <span class="fl">430000</span> <span class="op">&amp;</span> <span class="va">region2</span> <span class="op">&lt;=</span> <span class="fl">450000</span> <span class="op">~</span> <span class="st">'At centro'</span>,</span>
 <span>        .default <span class="op">=</span> <span class="st">'Intra arms'</span></span>
 <span>    <span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sign <span class="op">=</span> <span class="va">p.value</span> <span class="op">&lt;=</span> <span class="fl">0.05</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">df</span></span>
-<span><span class="co">##  # A tibble: 36,228 × 10</span></span>
-<span><span class="co">##      chr region1 region2     D   logFC logCPM p.value   p.adj group      sign </span></span>
-<span><span class="co">##    &lt;dbl&gt;   &lt;int&gt;   &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;lgl&gt;</span></span>
-<span><span class="co">##  1    11       1       1     0  0.540    4.81 5.39e-1 7.95e-1 Intra arms FALSE</span></span>
-<span><span class="co">##  2    11       1    2001     1 -0.226    5.82 7.00e-1 8.81e-1 Intra arms FALSE</span></span>
-<span><span class="co">##  3    11       1    4001     2  0.506    7.70 5.94e-2 2.17e-1 Intra arms FALSE</span></span>
-<span><span class="co">##  4    11       1    6001     3  1.27     8.10 6.49e-7 5.84e-5 Intra arms TRUE </span></span>
-<span><span class="co">##  5    11       1    8001     4  0.0998   7.55 8.02e-1 9.34e-1 Intra arms FALSE</span></span>
-<span><span class="co">##  6    11       1   10001     5  0.759    6.57 1.00e-1 3.14e-1 Intra arms FALSE</span></span>
-<span><span class="co">##  # ℹ 36,222 more rows</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">logFC</span>, y <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">p.value</span><span class="op">)</span>, col <span class="op">=</span> <span class="va">sign</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">group</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/lims.html">ylim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'none'</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'grey'</span>, <span class="st">'black'</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>sign <span class="op">=</span> <span class="va">p.value</span> <span class="op">&lt;=</span> <span class="fl">0.05</span> <span class="op">&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">logFC</span>, y <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log10</a></span><span class="op">(</span><span class="va">p.value</span><span class="op">)</span>, col <span class="op">=</span> <span class="va">sign</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">geom_point</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">0.2</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">group</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">ylim</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">'none'</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>    <span class="fu">scale_color_manual</span><span class="op">(</span>values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'grey'</span>, <span class="st">'black'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">##  Warning: Removed 34 rows containing missing values (`geom_point()`).</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -512,7 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="cell" data-layout-align="center" data-hash="interoperability_cache/html/unnamed-chunk-10_21218434dbe0282ac832b0e75bb71901">
+<div class="cell" data-layout-align="center" data-hash="interoperability_cache/html/unnamed-chunk-10_f2403203a820bf73de7d06e1104200c8">
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">gis</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span><span class="va">df</span>, seqnames1 <span class="op">=</span> <span class="va">chr</span>, start1 <span class="op">=</span> <span class="va">region1</span>, start2 <span class="op">=</span> <span class="va">region2</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
 <span>        seqnames2 <span class="op">=</span> <span class="va">seqnames1</span>, </span>
@@ -521,12 +473,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span>    <span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">logFC</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/pkg/HiCExperiment/man/as.html">df2gi</a></span><span class="op">(</span><span class="op">)</span> </span>
-<span><span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html">plot_grid</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/HiContacts/man/plotMatrix.html">plotMatrix</a></span><span class="op">(</span><span class="va">merged_replicates</span><span class="op">[[</span><span class="st">'WT_G2M'</span><span class="op">]</span><span class="op">]</span>, use.scores <span class="op">=</span> <span class="st">'balanced'</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3.5</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, caption <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/HiContacts/man/plotMatrix.html">plotMatrix</a></span><span class="op">(</span><span class="va">merged_replicates</span><span class="op">[[</span><span class="st">'wpl1_G2M'</span><span class="op">]</span><span class="op">]</span>, use.scores <span class="op">=</span> <span class="st">'balanced'</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">3.5</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, caption <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span>    <span class="fu"><a href="https://rdrr.io/pkg/HiContacts/man/plotMatrix.html">plotMatrix</a></span><span class="op">(</span><span class="va">gis</span>, use.scores <span class="op">=</span> <span class="st">'logFC'</span>, scale <span class="op">=</span> <span class="st">'linear'</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, cmap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/HiContacts/man/palettes.html">bgrColors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>, </span>
-<span>    align <span class="op">=</span> <span class="st">"hv"</span>, axis <span class="op">=</span> <span class="st">'tblr'</span>, nrow <span class="op">=</span> <span class="fl">1</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/pkg/HiContacts/man/plotMatrix.html">plotMatrix</a></span><span class="op">(</span><span class="va">gis</span>, use.scores <span class="op">=</span> <span class="st">'logFC'</span>, scale <span class="op">=</span> <span class="st">'linear'</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">2</span>, <span class="fl">2</span><span class="op">)</span>, cmap <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/HiContacts/man/palettes.html">bgrColors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure"><p><img src="interoperability_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>

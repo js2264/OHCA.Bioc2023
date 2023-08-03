@@ -25,7 +25,7 @@ hicpro_matrix <- HiContactsData('yeast_wt', format = 'hicpro_matrix')
 hicpro_regions <- HiContactsData('yeast_wt', format = 'hicpro_bed')
 hicprof <- HicproFile(hicpro_matrix, bed = hicpro_regions)
 hicpro <- import(hicprof)["II"]
-plotMatrix(hicpro, use.scores = 'count')
+hicpro
 hicpro <- normalize(hicpro)
 cowplot::plot_grid(
     plotMatrix(hicpro, use.scores = 'count'), 

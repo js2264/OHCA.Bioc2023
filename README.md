@@ -39,7 +39,7 @@ Docker image as follows:
 
 ```sh
 #| eval: false
-docker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca
+docker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca:bioc_RELEASE_3_17
 ```
 
 Once running, navigate to https://localhost:8787/ 

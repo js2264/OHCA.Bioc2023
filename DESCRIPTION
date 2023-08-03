@@ -31,4 +31,4 @@ Suggests:
 URL: https://js2264.github.io/OHCA.Bioc2023/
 BugReports: https://github.com/js2264/OHCA.Bioc2023/issues/new
 VignetteBuilder: knitr
-DockerImage: ghcr.io/js2264/ohca:latest
+DockerImage: ghcr.io/js2264/ohca:bioc_RELEASE_3_17

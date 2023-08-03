@@ -21,8 +21,10 @@ All the packages used in this demo are available in the following `docker` image
 
 ```{sh filename = 'sh'}
 #| eval: false
-docker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca /bin/bash
+docker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca:bioc_RELEASE_3_17 R
 ```
+
+Note that this also opens up an `RStudio` instance available at `https://localhost:8787/`.
 :::
 
 ## Processing Hi-C paired-end reads in R
@@ -102,7 +104,6 @@ with HTML reports.
 
 ```{r filename = 'R'}
 #| eval: false
-library(HiCool)
 library(HiContactsData)
 r1 <- HiContactsData(sample = 'yeast_wt', format = 'fastq_R1')
 r2 <- HiContactsData(sample = 'yeast_wt', format = 'fastq_R2')

@@ -60,21 +60,12 @@ library(purrr)
 library(HiCExperiment)
 hics <- map(cfs, import, resolution = 2000)
 hics
-library(HiContacts)
-merged_replicates <- list(
-    WT_G2M = merge(hics[[1]][ 'XI'], hics[[2]][ 'XI']), 
-    wpl1_G2M = merge(hics[[3]][ 'XI'], hics[[4]][ 'XI'])
-)
-library(ggplot2)
-maps <- imap(merged_replicates, ~ plotMatrix(
-    .x, use.scores = 'balanced', limits = c(-3.5, -1.5), caption = FALSE
-) + ggtitle(.y))
-cowplot::plot_grid(plotlist = maps, nrow = 1)
 ```
 
 ### Transform `HiCExperiment` into multiHiCcompare-compatible objects
 
 ```{r}
+library(HiContacts)
 library(multiHiCcompare)
 library(dplyr)
 hics_list <- map(hics, ~ .x['XI'] |> 
@@ -96,16 +87,15 @@ mhicc
 ```
 
 ```{r}
-df <- results(mhicc) |> 
-    as_tibble() |> 
+df <- results(mhicc) |> as_tibble() 
+df |> 
     mutate(group = case_when(
         region1 < 430000 & region2 > 450000 ~ 'Inter arms',
         region1 >= 430000 & region2 <= 450000 ~ 'At centro',
         .default = 'Intra arms'
     )) |> 
-    mutate(sign = p.value <= 0.05 & abs(logFC) >= 1)
-df
-ggplot(df, aes(x = logFC, y = -log10(p.value), col = sign)) + 
+    mutate(sign = p.value <= 0.05 & abs(logFC) >= 1) |>
+    ggplot(aes(x = logFC, y = -log10(p.value), col = sign)) + 
     geom_point(size = 0.2) + 
     theme_bw() + 
     facet_wrap(~group) + 
@@ -123,12 +113,7 @@ gis <- rename(df, seqnames1 = chr, start1 = region1, start2 = region2) |>
     ) |> 
     filter(abs(logFC) >= 1) |>
     df2gi() 
-cowplot::plot_grid(
-    plotMatrix(merged_replicates[['WT_G2M']], use.scores = 'balanced', limits = c(-3.5, -1), caption = FALSE),
-    plotMatrix(merged_replicates[['wpl1_G2M']], use.scores = 'balanced', limits = c(-3.5, -1), caption = FALSE),
-    plotMatrix(gis, use.scores = 'logFC', scale = 'linear', limits = c(-2, 2), cmap = bgrColors()), 
-    align = "hv", axis = 'tblr', nrow = 1
-)
+plotMatrix(gis, use.scores = 'logFC', scale = 'linear', limits = c(-2, 2), cmap = bgrColors())
 ```
 
 ## Read more
