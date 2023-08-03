@@ -25,14 +25,14 @@
     "href": "index.html",
     "title": "Welcome",
     "section": "",
-    "text": "This package is used to support the OHCA package demonstration at the Bioconductor Conference 2023.\n\nThis is a package demonstration for the OHCA ecosystem, including the following packages :\n\nHiCool\nHiCExperiment\nHiContacts\nfourDNData\n\nThe OHCA book is available here.\n\n\nFamiliarity with the tidyverse syntax;\nFamiliarity with the GenomicRanges class;\nBasic understanding of Hi-C principles\n\nFor more information on Hi-C experimental approach and principles, read OHCA book first chapter.\n\n\n\nActivity\nTime\n\n\n\nIntroduction to Hi-C\n10m\n\n\nOHCA ecosystem\n10m\n\n\nDemonstration with real data\n20m\n\n\nWrapping up\n5m\n\n\n\nTo quickly use the package Docker image:\ndocker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca:bioc_RELEASE_3_17\nOnce running, navigate to http://localhost:8787/ and then login with rstudio:OHCA."
+    "text": "This package is used to support the OHCA package demonstration at the Bioconductor Conference 2023.\n\n\n\n\n\n\n📚 The OHCA book is the main documentation, and is available here.\n\n\n\n\n\n\n\nThis is a package demonstration for the OHCA ecosystem, including the following packages :\n\nHiCool\nHiCExperiment\nHiContacts\nfourDNData\n\n\nFamiliarity with the tidyverse syntax;\nFamiliarity with the GenomicRanges class;\nBasic understanding of Hi-C principles\n\nFor more information on Hi-C experimental approach and principles, read OHCA book first chapter.\n\n\n\nActivity\nTime\n\n\n\nIntroduction to Hi-C\n10m\n\n\nOHCA ecosystem\n10m\n\n\nDemonstration with real data\n20m\n\n\nWrapping up\n5m\n\n\n\nTo quickly use the package Docker image:\ndocker run -it -e PASSWORD=OHCA -p 8787:8787 ghcr.io/js2264/ohca:bioc_RELEASE_3_17\nOnce running, navigate to http://localhost:8787/ and then login with rstudio:OHCA."
   },
   {
     "objectID": "index.html#description",
     "href": "index.html#description",
     "title": "Welcome",
     "section": "",
-    "text": "This is a package demonstration for the OHCA ecosystem, including the following packages :\n\nHiCool\nHiCExperiment\nHiContacts\nfourDNData\n\nThe OHCA book is available here."
+    "text": "This is a package demonstration for the OHCA ecosystem, including the following packages :\n\nHiCool\nHiCExperiment\nHiContacts\nfourDNData"
   },
   {
     "objectID": "index.html#pre-requisites",
